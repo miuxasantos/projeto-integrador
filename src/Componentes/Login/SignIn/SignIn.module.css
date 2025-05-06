@@ -1,0 +1,117 @@
+:root{
+    --forms-bg: #04471c;
+    --font-color-white: #ffffff;
+}
+
+.icon {
+    size: 100px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--forms-bg);
+    width: 900px;
+    height: 550px;
+    box-sizing: border-box;
+    border-radius: 40px;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.title, .welcomeBackText {
+    color: var(--font-color-white);
+    font-weight: 700;
+}
+
+.formSignin {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.containerInput {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 12px;
+    align-items: center;
+}
+
+.emailAndPassword {
+    width: 320px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+.checkboxContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 16px;
+}
+
+.checkboxContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark{
+    height: 16px;
+    width: 16px;
+    background-color: #5e3838;
+    border-radius: 4px;
+}
+
+.checkboxContainer:hover .checkmark {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #4f993d;
+  }
+
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+ 
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+.signUp {
+
+}
+
+.btnSignin {
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
