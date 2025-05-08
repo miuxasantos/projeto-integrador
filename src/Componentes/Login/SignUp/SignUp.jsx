@@ -3,6 +3,9 @@ import { FaAt, FaUser, FaLock, FaAddressCard } from "react-icons/fa";
 import * as styles from "./SignUp.module.css";
 
 function SignUp() {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -13,7 +16,7 @@ function SignUp() {
                 <h3>Bem vindo!</h3>
                 <p>Para criar sua conta, basta preencher os seguintes campos!</p>
             </div>
-            <form className={styles.formSignUp}>
+            <form onSubmit={handleSubmit} className={styles.formSignUp}>
                 <div className={styles.containerInput}>
                     <input type="nome" id="nome"
                         className={styles.inputStyle}

@@ -3,6 +3,9 @@ import { FaUser, FaLock } from "react-icons/fa";
 import styles from "./SignIn.module.css";
 
 function SignIn() {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
     return (
         <div className={styles.container} /* {...props} */>
                 <div className={styles.title}>
@@ -14,7 +17,7 @@ function SignIn() {
                     <p>É um prazer tê-lo conosco novamente. </p>
                     <p>Faça seu login para continuarmos organizando sua vida financeira!</p>
                 </div>
-            <form className={styles.formSignin} /*onSubmit={handleSubmitLoginForm} */>
+            <form onSubmit={handleSubmit} className={styles.formSignin} /*onSubmit={handleSubmitLoginForm} */>
                 <div className={styles.containerInput}>
                     <input type="email" className={styles.emailAndPassword}
                         id="email"
