@@ -1,0 +1,57 @@
+.form__container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.input__div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.input {
+    border-radius: 10px;
+    width: 250px;
+    height: 30px;
+}
+
+.btn {
+    width: 100px;
+    align-items: center;
+    border-radius: 20px;
+    height: 30px;
+    gap: 10px;
+}
+
+.lista__container {
+    margin-top: 10px;
+}
+
+.lista__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.lista__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+}
+
+.lista__btn {
+    display: flex;
+    justify-content: center;
+    gap: 16px;  
+}
