@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styles from "./Navb.module.css"
-import { useOutletContext } from 'react-router-dom'
+import useAuth from '../../context/AuthContext/useAuth'
 
 const Navb = () => {
-  const { user, onLogout } = useOutletContext;
+  const { user, logout } = useAuth();
   return (
     <nav className={styles.container}>
       <div>
@@ -18,7 +18,7 @@ const Navb = () => {
 
       <div className={styles.navb__user}>
         <span>Bem vindo, {user?.nome}"</span>
-        <button onClick={onLogout} className={styles.logout__btn}></button>
+        <button onClick={logout} className={styles.logout__btn}></button>
       </div>
     </nav>
   )

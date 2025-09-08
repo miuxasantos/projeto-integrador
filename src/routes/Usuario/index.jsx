@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import styles from "./Usuario.module.css";
 
 const Usuario = () => {
@@ -13,15 +13,13 @@ const Usuario = () => {
   });
   const [editingId, setEditingId] = useState(null);
 
-  const api = "http://localhost:3030/user";
-
   useEffect(() => {
     fetchItems();
   }, []);
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get(`${api}/allusers`);
+      const response = await api.get("/user/allusers");
       setItems(response.data);
       console.log(response.data);
     } catch (err) {
@@ -42,9 +40,9 @@ const Usuario = () => {
 
     try {
       if (editingId) {
-        await axios.put(`${api}/${editingId}`, formData);
+        await api.put(`/user/${editingId}`, formData);
       } else {
-        await axios.post(`${api}`, formData);
+        await api.post("/user", formData);
       }
 
       resetForm();
@@ -67,7 +65,7 @@ const Usuario = () => {
 
   const handleDelete = async (idUsuario) => {
     try {
-      await axios.delete(`${api}/${idUsuario}`);
+      await api.delete(`/ user/${idUsuario}`);
       fetchItems();
     } catch (err) {
       console.log("Algo deu errado...", err);

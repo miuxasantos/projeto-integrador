@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
+import api from "../../services/api";
+import useAuth from "../../context/AuthContext/useAuth";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,9 +16,7 @@ const Auth = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { onLoginSuccess } = useOutletContext();
-
-  const API_URL = "http://localhost:3030/auth";
+  const { login } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,14 +31,15 @@ const Auth = () => {
     setError("");
 
     try {
-      const endpoint = isLogin ? "/signin" : "/signup";
-      const response = await axios.post(`${API_URL}${endpoint}`, formData);
+      const endpoint = isLogin ? "auth/signin" : "auth/signup";
+      const dataToSend = isLogin 
+        ? { email: formData.email, senha: formData.senha }
+        : formData;
+
+      const response = await api.post(endpoint, dataToSend);
 
       if (response.data.token) {
-        onLoginSuccess({
-          ...response.data.token,
-          token: response.data.token,
-        });
+        login({ user: response.data.usuario, token: response.data.token });
         navigate("/");
       }
     } catch (error) {
@@ -51,7 +51,7 @@ const Auth = () => {
     <div className={styles.auth_container}>
       <div className={styles.auth_card}>
         <h2>{isLogin ? "Login" : "Cadastro"}</h2>
-        {error && <div className={styles.error}>error</div>}
+        {error && <div className={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.auth_form}>
           {!isLogin && (
@@ -83,7 +83,7 @@ const Auth = () => {
               <div className={styles.input__div}>
                 <label>Senha:</label>
                 <input
-                  type="text"
+                  type="password"
                   name="senha"
                   value={formData.senha}
                   onChange={handleInputChange}
@@ -126,7 +126,7 @@ const Auth = () => {
             <div className={styles.auth_login}>
             <label>Senha:</label>
             <input
-                type="text"
+                type="password"
                 name="senha"
                 value={formData.senha}
                 onChange={handleInputChange}
