@@ -1,6 +1,6 @@
 import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import './main.css'
 import App from './App'
 import Home from './routes/Home';
@@ -14,7 +14,7 @@ const Conta = lazy(() => import("./routes/Conta"));
 const Movimentacao = lazy(() => import("./routes/Movimentacao"));
 const Metas = lazy(() => import("./routes/Metas"));
 const CartInvest = lazy(() => import("./routes/CartInvest"));
-
+const NotFound = lazy(() => import("./routes/NotFound"));
 
 const router = createBrowserRouter([
   {
@@ -22,22 +22,26 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
-        element: ( <PrivateRoute> <Home /> </PrivateRoute>)
-      },
-      {
         path: "/auth",
         element: <Auth />,
          children: [
           {
+            index: true,
+            element: <Navigate to="signin" replace />
+          },
+          {
             path: "signin", // Isso se tornará /auth/signin
-            element: <Auth />
+            element: <Auth key="signin" mode="signin" />
           },
           {
             path: "signup", // Isso se tornará /auth/signup
-            element: <Auth />
+            element: <Auth key="signup" mode="signup" />
           }
         ]
+      },
+      {
+        index: true,
+        element: ( <PrivateRoute> <Home /> </PrivateRoute>)
       },
       {
         path: "/user",
@@ -82,6 +86,14 @@ const router = createBrowserRouter([
             </Suspense>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<p>Carregando...</p>}>
+            <NotFound />
+          </Suspense>
+        )
       }
     ]
   }

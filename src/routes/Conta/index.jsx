@@ -5,36 +5,36 @@ import api from "../../services/api";
 import { useConta } from "../../context/ContaContext/useConta";
 
 const Conta = () => {
-  const { user } = useAuth();
-  const [items, setItems] = useState([]);
+    console.log("🎯 COMPONENTE CONTA RENDERIZADO!"); // ← ESTE LOG APARECE?
+  const { usuario, token } = useAuth();
   const [formData, setFormData] = useState({
     idConta: "",
     nome: "",
     saldo: "",
-    usuarios_idUsuario: user?.idUsuario || "",
+    usuarios_idUsuario: "",
   });
   const [editingId, setEditingId] = useState(null);
-  const [ loading, setLoading ] = useState(true);
-  const { contas, contaSelec, selecionarConta } = useConta();
+  const [ loading, setLoading ] = useState(false);
+  const { contaSelec, selecionarConta, contas, fetchContas} = useConta();
+
+    console.log("🎯 Dados do contexto:", { usuario, token, contas }); // ← E ESTE?
+        console.log("✅ Hooks carregados:", { usuario });
+
 
   useEffect(() => {
-    fetchData();
-  }, [user]);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const [contaResponse] = await Promise.all([
-        api.get("/conta/"),
-        //api.get(`user/${user.idUsuario}`),
-      ]);
-      setItems(contaResponse.data);
-    } catch (err) {
-      console.log("Algo deu errado...", err);
-    } finally {
-      setLoading(false);
+    if (usuario?.idUsuario && token) {
+      fetchContas();
     }
-  };
+  }, [usuario, token, fetchContas])
+
+  useEffect(() => {
+    if (usuario?.idUsuario) {
+      setFormData(prev => ({
+        ...prev,
+        usuarios_idUsuario: usuario.idUsuario
+      }));
+    }
+  }, [usuario]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,15 +47,18 @@ const Conta = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!usuario?.idUsuario) return;
+
+    setLoading(true);
+
     try {
       const prepareData = {
         ...formData,
-        // usuarios_idUsuario: parseInt(user.idUsuario),
-        nome: formData.nome,
-        saldo: parseFloat(formData.saldo),
+        usuarios_idUsuario: parseInt(usuario.idUsuario),
+        nome: formData.nome.trim(),
+        saldo: parseFloat(formData.saldo) || 0,
       }
 
-    
       if (editingId) {
         await api.put(`/conta/${editingId}`, prepareData);
       } else {
@@ -63,9 +66,12 @@ const Conta = () => {
       }
 
       resetForm();
-      fetchData();
+
+      await fetchContas();
     } catch (err) {
       console.log("Algo deu errado...", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,17 +80,21 @@ const Conta = () => {
       idConta: item.idConta || "",
       nome: item.nome || "",
       saldo: item.saldo || "",
-      usuarios_idUsuario: item.usuarios_idUsuario || user.idUsuario,
+      usuarios_idUsuario: item.usuarios_idUsuario || usuario.idUsuario,
     });
     setEditingId(item.idConta);
   };
 
   const handleDelete = async (idConta) => {
+    setLoading(true);
+
     try {
       await api.delete(`/conta/${idConta}`);
-      fetchData();
+      await fetchContas();
     } catch (err) {
       console.log("Algo deu errado...", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,19 +103,16 @@ const Conta = () => {
       idConta: "",
       nome: "",
       saldo: "",
-      usuarios_idUsuario: user.idUsuario || "",
+      usuarios_idUsuario: usuario.idUsuario || "",
     });
     setEditingId(null);
   };
 
-  if(loading) {
-    return <p>Carregando</p>;
-  }
-
   return (
-    <div>
+    <div className={styles.container}>
       
       <form onSubmit={handleSubmit} className={styles.form__container}>
+        {editingId ? <p>Editar sua conta</p> : <p>Criar nova conta</p>}
         <input type="hidden" name="idConta" value={formData.idConta} />
 
         <div className={styles.input__div}>
@@ -133,21 +140,12 @@ const Conta = () => {
           />
         </div>
 
-        {/* <div className={styles.input__div}>
-          <label>Usuario:</label>
-            name="usuarios_idUsuario"
-            value={formData.usuarios_idUsuario}
-            onChange={handleInputChange}
-            required
-            className={styles.input}
-        </div> */}
-
-        <button type="submit" className={styles.btn}>
-          {editingId ? "Atualizar" : "Salvar"}
+        <button type="submit" className={styles.btn__conta}>
+          {editingId? "Atualizar" : "Salvar"}
         </button>
 
         {editingId && (
-          <button type="button" onClick={resetForm} className={styles.btn}>
+          <button type="button" disabled={loading} onClick={resetForm} className={styles.btn__conta}>
             Cancelar
           </button>
         )}
@@ -155,34 +153,38 @@ const Conta = () => {
 
       {/* Lista de Itens */}
       <div className={styles.lista__container}>
-        <h2>Contas Cadastradas</h2>
+        <div className={styles.div__h2}>
+          <h2 className={styles.lista__h2}>Minhas contas</h2>
+        </div>
 
-        {items.length === 0 ? (
+        {contas.length === 0 ? (
           <p>Nenhuma conta cadastrada.</p>
         ) : (
-          <ul>
-            {items.map((item) => (
+          <ul className={styles.lista__ul}>
+            {contas.map((item) => (
               <li key={item.idConta || item.nome} className={styles.lista__card}>
                 <div className={styles.lista__info}>
                   <h3>Nome: {item.nome}</h3>
                   <p>Saldo: {item.saldo}</p>
-                  <p>Id do usuário: {item.usuarios_idUsuario}</p>
 
-                  {contaSelec?.idConta === item.idConta ? (
-                    <p><strong>Conta selecionada</strong></p>
-                  ) : (
-                    <button onClick={() => selecionarConta(item.idConta)}>Selecionar</button>
-                  )}
+                  <div className={styles.lista__btn}>
+                    {contaSelec?.idConta === item.idConta ? (
+                      <p className={styles.selecConta__p}>Conta selecionada</p>
+                    ) : (
+                      <button className={styles.selecConta} onClick={() => selecionarConta(item.idConta)}>Selecionar</button>
+                    )}
+                  </div>
                 </div>
 
                 <div className={styles.lista__btn}>
-                  <button onClick={() => handleEdit(item)} className={styles.btn}>
+                  <button onClick={() => handleEdit(item)}
+                    className={styles.btn__conta}>
                     Editar
                   </button>
 
                   <button
                     onClick={() => handleDelete(item.idConta)}
-                    className={styles.btn}
+                    className={styles.btn__conta}
                   >
                     Excluir
                   </button>

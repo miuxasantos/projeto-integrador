@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: #a4b4a6;
+    --main-bg-color: #e2e4c7;
 }
 
 *, *::before, *::after {
@@ -90,4 +90,11 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+#root {
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }

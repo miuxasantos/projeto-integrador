@@ -1,0 +1,13 @@
+.div_footer {
+    background-color: #2c5319;
+    margin-top: auto; /* Remove qualquer espaço extra abaixo */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 12px;
+}
+
+.p_footer {
+    color: black;
+    font-size: 16px;
+}

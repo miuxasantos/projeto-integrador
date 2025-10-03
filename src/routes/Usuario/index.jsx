@@ -19,7 +19,7 @@ const Usuario = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await api.get("/user/allusers");
+      const response = await api.get("/user/me");
       setItems(response.data);
       console.log(response.data);
     } catch (err) {
@@ -40,7 +40,7 @@ const Usuario = () => {
 
     try {
       if (editingId) {
-        await api.put(`/user/${editingId}`, formData);
+        await api.put(`/user/me/${editingId}`, formData);
       } else {
         await api.post("/user", formData);
       }
@@ -84,9 +84,58 @@ const Usuario = () => {
   };
 
   return (
-    <div>
+    <div className={styles.usuario_container}>
+
+      {/* Lista de Itens */}
+      <div className={styles.lista__container}>
+        <h2>Meu perfil</h2>
+
+          <ul>
+            {items ?(
+              <li key={items.idUsuario || items.email} className={styles.lista__card}>
+                <div className={styles.lista__info}>
+                  <h2>Nome: {items.nome}</h2>
+                  <p>Email: {items.email}</p>
+                  {/*<p>Senha: {item.senha}</p>*/}
+                  <p>Tipo da conta: {items.tipo}</p>
+                </div>
+
+              {editingId ? (
+
+                <div className={styles.lista__btn}>
+                  <button onClick={() => handleEdit(items)} hidden="true" className={styles.btn}>
+                    Editar
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(items.idUsuario)} hidden="true"
+                    className={styles.btn}
+                  >
+                    Excluir
+                  </button>
+                </div>
+
+              ) : (<div className={styles.lista__btn}>
+                  <button onClick={() => handleEdit(items)} className={styles.btn}>
+                    Editar
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(items.idUsuario)}
+                    className={styles.btn}
+                  >
+                    Excluir
+                  </button>
+                </div>)}
+              </li>
+            ) : ("")}
+          </ul>
+      </div>
+
       {/* Formulário */}
       <form onSubmit={handleSubmit} className={styles.form_container}>
+      { editingId ? (
+        <>
         <input type="hidden" name="idMeta" value={formData.idUsuario} />
 
         <div className={styles.input__div}>
@@ -116,7 +165,7 @@ const Usuario = () => {
         <div className={styles.input__div}>
           <label>Senha:</label>
           <input
-            type="text"
+            type="password"
             name="senha"
             value={formData.senha}
             onChange={handleInputChange}
@@ -138,19 +187,15 @@ const Usuario = () => {
             <option value="pessoal">Pessoal</option>
             <option value="pequena empresa">Pequena empresa</option>
           </select>
-          {/* <input
-            type="text"
-            name="tipo"
-            value={formData.tipo}
-            onChange={handleInputChange}
-            required
-            className={styles.input}
-          /> */}
         </div>
 
         <button type="submit" className={styles.btn}>
-          {editingId ? "Atualizar" : "Salvar"}
+          Atualizar
         </button>
+        </>
+        ) : (<button type="submit" hidden="true" className={styles.btn}>
+          Atualizar
+        </button>)}
 
         {editingId && (
           <button type="button" onClick={resetForm} className={styles.btn}>
@@ -158,41 +203,6 @@ const Usuario = () => {
           </button>
         )}
       </form>
-
-      {/* Lista de Itens */}
-      <div className={styles.lista__container}>
-        <h2>Usuarios Cadastrados</h2>
-
-        {items.length === 0 ? (
-          <p>Nenhum usuario cadastrado.</p>
-        ) : (
-          <ul>
-            {items.map((item) => (
-              <li key={item.idUsuario || item.email} className={styles.lista__card}>
-                <div className={styles.lista__info}>
-                  <h2>Nome: {item.nome}</h2>
-                  <p>Email: {item.email}</p>
-                  <p>Senha: {item.senha}</p>
-                  <p>Tipo da conta: {item.tipo}</p>
-                </div>
-
-                <div className={styles.lista__btn}>
-                  <button onClick={() => handleEdit(item)} className={styles.btn}>
-                    Editar
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(item.idUsuario)}
-                    className={styles.btn}
-                  >
-                    Excluir
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 };

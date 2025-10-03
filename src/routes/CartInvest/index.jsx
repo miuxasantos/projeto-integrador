@@ -1,108 +1,154 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./CartInvest.module.css";
+import api from "../../services/api.js";
+import { useConta } from "../../context/ContaContext/useConta.jsx";
 
 const CartInvest = () => {
-  const [items, setItems] = useState([]);
+  const { contaSelec } = useConta();
+  const [investimento, setInvestimento] = useState(null);
   const [formData, setFormData] = useState({
     idCartInvest: "",
     valor: "",
-    data: "",
     contas_idConta: "",
   });
-  const [editingId, setEditingId] = useState(null);
-  const [contas, setContas] = useState([]);
 
-  const api = "http://localhost:3030/invest";
-  const apiAcc= "http://localhost:3030/conta";
+  const fetchData = useCallback( async () => {
+    try {
+      const investResponse = await api.get(`/invest/${contaSelec.idConta}`);
+
+      if (Array.isArray(investResponse.data) && investResponse.data.length > 0) {
+        setInvestimento(investResponse.data[0]);
+      } else if (investResponse.data && typeof investResponse.data === 'object') {
+        setInvestimento(investResponse.data);
+      } else {
+        setInvestimento(null);
+      }
+    } catch (error) {
+      console.log("Algo deu errado...", error);
+    }
+  }, [contaSelec]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const [cartInvestResponse, contaResponse] = await Promise.all([
-        axios.get(`${api}/allinvest`),
-        axios.get(`${apiAcc}/allacc`),
-      ]);
-      setItems(cartInvestResponse.data);
-      setContas(contaResponse.data);
-    } catch (err) {
-      console.log("Algo deu errado...", err);
+    if(contaSelec) {
+      fetchData();
     }
-  };
+  }, [contaSelec, fetchData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: value || "",
     });
   };
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const prepareData = {
+  //     ...formData,
+  //     contas_idConta: parseInt(formData.contas_idConta),
+  //     valor: parseFloat(formData.valor),
+  //   }
+  //   console.log(prepareData)
+  //   try {
+  //     if (editingId) {
+  //       await api.put(`/invest/${contaSelec.idConta}/invest/${editingId}`, prepareData);
+  //     } else {
+  //       await api.post(`/invest/${contaSelec.idConta}`, prepareData);
+  //     }
+
+  //     resetForm();
+  //     fetchData();
+  //   } catch (err) {
+  //     console.log("Algo deu errado...", err);
+  //   }
+  // };
+
+  // const handleEdit = (item) => {
+  //   setFormData({
+  //     idCartInvest: item.idMeta ||"",
+  //     valor: item.valor || "",
+  //     contas_idConta: parseInt(formData.contas_idConta) || contaSelec.idConta,
+  //   });
+  //   setEditingId(item.idCartInvest);
+  // };
+
+  const handleRetirada = async (e) => {
     e.preventDefault();
 
-    const prepareData = {
-      ...formData,
-      contas_idConta: parseInt(formData.contas_idConta),
-      valor: parseFloat(formData.valor),
+    if(!formData.valor || parseFloat(formData.valor) <= 0) {
+      alert("Opa! Digite um valor válido!");
     }
-    console.log(prepareData)
+
+    if (!investimento) {
+      alert("Não há investimento para retirar");
+      return;
+    }
+
+    if (!investimento || !investimento.idCartInvest || investimento.valor === undefined) {
+      alert("Não há investimento para retirar");
+      return;
+    }
+
+    const valorRetirada = parseFloat(formData.valor);
+    const saldoAtual = parseFloat(investimento.valor) || 0;
+    
+    if (valorRetirada > saldoAtual) {
+      alert(`Saldo insuficiente! Você tem R$ ${saldoAtual.toFixed(2)}`);
+      return;
+    }
+
     try {
-      if (editingId) {
-        await axios.put(`${api}/${editingId}`, prepareData);
-      } else {
-        await axios.post(`${api}`, prepareData);
-      }
+      await api.post(`/invest/${contaSelec.idConta}/invest/${investimento.idCartInvest}/retirar`, {
+        valor: valorRetirada
+      });
 
       resetForm();
       fetchData();
-    } catch (err) {
-      console.log("Algo deu errado...", err);
+    } catch (error) {
+      console.log("Opa, algo deu errado ao retirar.", error);
+      console.log({ status: error.response?.status,
+      data: error.response?.data, // ← ESTA É A INFORMAÇÃO IMPORTANTE!
+      message: error.message,
+      url: error.config?.url})
     }
-  };
+  }
 
-  const handleEdit = (item) => {
-    setFormData({
-      idCartInvest: item.idMeta ||"",
-      valor: item.valor || "",
-      contas_idConta: item.contas_idConta || "",
-    });
-    setEditingId(item.idCartInvest);
-  };
-
-  const handleDelete = async (idCartInvest) => {
-    try {
-      await axios.delete(`${api}/${idCartInvest}`);
-      fetchData();
-    } catch (err) {
-      console.log("Algo deu errado...", err);
-    }
-  };
+  // const handleDelete = async (idCartInvest) => {
+  //   try {
+  //     await api.delete(`/invest/${contaSelec.idConta}/${idCartInvest}`);
+  //     fetchData();
+  //   } catch (err) {
+  //     console.log("Algo deu errado...", err);
+  //   }
+  // };
 
   const resetForm = () => {
     setFormData({
       idCartInvest: "",
       valor: "",
-      contas_idConta: "",
+      contas_idConta: parseInt(formData.contas_idConta) || contaSelec.idConta,
     });
-    setEditingId(null);
   };
+
+  if(!contaSelec) {
+    return <p>Por favor, selecione a sua conta.</p>
+  }
 
   return (
     <div>
       {/* Formulário */}
-      <form onSubmit={handleSubmit} className={styles.form__container}>
+      <form className={styles.form__container}>
         <input type="hidden" name="idCartInvest" value={formData.idCartInvest} />
 
         <div className={styles.input__div}>
-          <label>valor:</label>
+          <label>Valor:</label>
           <input
             type="number"
             name="valor"
             step="0.01"
+            min="0.01"
             value={formData.valor}
             onChange={handleInputChange}
             required
@@ -110,7 +156,7 @@ const CartInvest = () => {
           />
         </div>
 
-        <div className={styles.input__div}>
+        {/* <div className={styles.input__div}>
           <label>conta:</label>
           <select
             name="contas_idConta"
@@ -126,26 +172,39 @@ const CartInvest = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
-        <button type="submit" className={styles.btn}>
-          {editingId ? "Atualizar" : "Salvar"}
-        </button>
-
-        {editingId && (
-          <button type="button" onClick={resetForm} className={styles.btn}>
-            Cancelar
+        {investimento && (
+          <button 
+            type="button" 
+            onClick={handleRetirada} 
+            className={`${styles.btn} ${styles.btn__retirar}`}
+            disabled={!formData.valor || parseFloat(formData.valor) <= 0}
+          >
+            Retirar
           </button>
         )}
+
       </form>
 
       {/* Lista de Itens */}
       <div className={styles.lista__container}>
-        <h2>Investimentos Cadastrados</h2>
+        <h2>Porquinho Cents</h2>
 
-        {items.length === 0 ? (
-          <p>Nenhuma conta cadastrada.</p>
+        {!investimento ? (
+          <div>
+            <p>Nenhum investimento cadastrado para esta conta.</p>
+          </div>
         ) : (
+          <div>
+            <h3>R$ {parseFloat(investimento.valor).toFixed(2)}</h3>
+          </div>
+        )}
+
+        {/* {Array.isArray(items) && items.length === 0 ? (
+          <p>Nenhuma investimento cadastrado.</p>
+        ) : (
+          Array.isArray(items) && (
           <ul>
             {items.map((item) => (
               <li key={item.idCartInvest || item.valor} className={styles.lista__card}>
@@ -170,7 +229,7 @@ const CartInvest = () => {
               </li>
             ))}
           </ul>
-        )}
+        ))} */}
       </div>
     </div>
   );

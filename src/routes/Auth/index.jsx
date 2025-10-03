@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 import api from "../../services/api";
 import useAuth from "../../context/AuthContext/useAuth";
 
-const Auth = () => {
+const Auth = ({ mode = "signin" }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     nome: "",
@@ -14,9 +14,56 @@ const Auth = () => {
   });
 
   const [error, setError] = useState("");
+  const [ loading, setLoading ] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const path = location.pathname;
+    
+    if(path === ("/auth/signup")){
+      setIsLogin(false)
+    } else if (path === "/auth/signin" || path === "/auth"){
+      setIsLogin(true);
+    }
+
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname === "/auth") {
+      navigate("/auth/signin", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
+
+  useEffect(() => {
+    setIsLogin(mode === "signin");
+
+    setFormData({
+      nome: "",
+      email: "",
+      senha: "",
+      tipo: "",
+    });
+
+  }, [mode]);
+
+  const switchMode = () => {
+    const newMode = isLogin ? "signup" : "signin";
+    navigate(`/auth/${newMode}`);
+  };
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +76,7 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const endpoint = isLogin ? "auth/signin" : "auth/signup";
@@ -38,26 +86,42 @@ const Auth = () => {
 
       const response = await api.post(endpoint, dataToSend);
 
+      console.log("Resposta completa do servidor:", response.data);
+      console.log("Token recebido:", response.data.token);
+      console.log("Dados do usuário recebidos:", response.data.usuario || response.data.user);
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario || response.data.user));
+
       if (response.data.token) {
-        login({ user: response.data.usuario, token: response.data.token });
-        navigate("/");
+        await login({ usuario: response.data.usuario || response.data.user, token: response.data.token });
+        
+        setTimeout(() => {
+          navigate("/");
+        }, 100);
       }
     } catch (error) {
       setError(error.response?.data?.error || "Erro ao processar solicitação.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.auth_container}>
       <div className={styles.auth_card}>
-        <h2>{isLogin ? "Login" : "Cadastro"}</h2>
+        <h2 className={styles.greetings_h2}>{isLogin ? "Bem-vindo de volta!" : "Bem-vindo!"}</h2>
         {error && <div className={styles.error}>{error}</div>}
+        <div className={styles.greetings}>
+          <p className={styles.greetings_p}>{isLogin ? "É um prazer tê-lo conosco novamente, faça seu login para continuarmos organizando sua vida financeira!" :
+          "Realize seu cadastro para começarmos a organizar a sua vida financeira!"}</p>
+        </div>
 
         <form onSubmit={handleSubmit} className={styles.auth_form}>
           {!isLogin && (
             <>
-              <div className={styles.input__div}>
-                <label className={styles.input__label}>Nome:</label>
+              <div className={styles.input_div}>
+                <label className={styles.input_label}>Nome:</label>
                 <input
                   type="text"
                   name="nome"
@@ -68,10 +132,10 @@ const Auth = () => {
                 />
               </div>
 
-              <div className={styles.input__div}>
-                <label>Email:</label>
+              <div className={styles.input_div}>
+                <label className={styles.input_label}>Email:</label>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
@@ -80,8 +144,8 @@ const Auth = () => {
                 />
               </div>
 
-              <div className={styles.input__div}>
-                <label>Senha:</label>
+              <div className={styles.input_div}>
+                <label className={styles.input_label}>Senha:</label>
                 <input
                   type="password"
                   name="senha"
@@ -92,8 +156,8 @@ const Auth = () => {
                 />
               </div>
 
-              <div className={styles.input__div}>
-                <label>Tipo da conta:</label>
+              <div className={styles.input_div}>
+                <label className={styles.input_label}>Tipo da conta:</label>
                 <select
                   name="tipo"
                   value={formData.tipo}
@@ -112,7 +176,7 @@ const Auth = () => {
           {isLogin && (
           <>
           <div className={styles.auth_login}>
-            <label>Email:</label>
+            <label className={styles.input_label}>Email:</label>
             <input
                 type="text"
                 name="email"
@@ -124,7 +188,7 @@ const Auth = () => {
             </div>
 
             <div className={styles.auth_login}>
-            <label>Senha:</label>
+            <label className={styles.input_label}>Senha:</label>
             <input
                 type="password"
                 name="senha"
@@ -135,13 +199,15 @@ const Auth = () => {
             />
           </div> 
           </>)}
-
-          <button type="submit" className={styles.auth__button}>{isLogin ? "Acessar" : "Cadastrar"}</button>
+          
+          <div className={styles.btn_div}>
+            <button type="submit" className={styles.auth_button}>{isLogin ? "Acessar" : "Cadastrar"}</button>
+          </div>
         </form>
 
         <p className={styles.auth_mode}>
             {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
-            <span onClick={() => setIsLogin(!isLogin)}
+            <span onClick={switchMode}
                 className={styles.auth_link}
             >
                 {isLogin ? 'Cadastrar' : 'Entrar'}

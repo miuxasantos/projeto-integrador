@@ -1,11 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+}
+
 .form__container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
     box-sizing: border-box;
+    background-color: #6abd68;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .input__div {
@@ -20,6 +31,7 @@
     border-radius: 10px;
     width: 250px;
     height: 30px;
+    border-style: none;
 }
 
 .btn {
@@ -32,14 +44,38 @@
 
 .lista__container {
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.div__h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.lista__h2 {
+    text-align: center;
+}
+
+.lista__ul {
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    background-color: #a7edaf;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .lista__card {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 20px;
     gap: 16px;
     margin-top: 16px;
+    background-color: #f7f5f5;
+    border-radius: 20px;
 }
 
 .lista__info {
@@ -52,5 +88,47 @@
 .lista__btn {
     display: flex;
     justify-content: center;
-    gap: 16px;  
+    gap: 16px;
+}
+
+.btn__conta {
+    width: 80px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-style: none;
+    border-radius: 20px;
+    background-color: #a7edaf;
+}
+
+.btn__conta:hover {
+    cursor: pointer;
+    background-color: #bdf1c3;
+    border-color: white;
+    border-style: solid;
+}
+
+.selecConta {
+    width: 80px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-style: none;
+    border-radius: 20px;
+    background-color: #a7edaf;
+}
+
+.selecConta:hover {
+    cursor: pointer;
+    background-color: #bdf1c3;
+    border-color: white;
+    border-style: solid;
+}
+
+.selecConta__p {
+    font-weight: 600;
 }

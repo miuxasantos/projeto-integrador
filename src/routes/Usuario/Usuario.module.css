@@ -1,3 +1,10 @@
+.usuario_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .form_container {
     display: flex;
     flex-direction: column;
@@ -6,6 +13,10 @@
     justify-content: center;
     margin-bottom: 20px;
     box-sizing: border-box;
+    background-color: #6abd68;
+    padding: 30px;
+    border-radius: 30px;
+    margin-left: 6rem;
 }
 
 .input__div {
@@ -20,18 +31,31 @@
     border-radius: 10px;
     width: 250px;
     height: 30px;
+    border-style: none;
 }
 
-.btn{
+.btn {
     width: 100px;
     align-items: center;
     border-radius: 20px;
     height: 30px;
     gap: 10px;
+    border-style: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #ccf0d0;
+    border-color: white;
+    border-style: solid;
 }
 
 .lista__container {
     margin-top: 10px;
+    margin-left: 50px;
+    background-color: #a7edaf;
+    padding: 60px;
+    border-radius: 30px;
 }
 
 .lista__card {
@@ -52,5 +76,6 @@
 .lista__btn {
     display: flex;
     justify-content: center;
-    gap: 16px;  
+    gap: 16px;
+    border-style: none;
 }

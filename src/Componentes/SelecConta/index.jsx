@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useConta } from "../../context/ContaContext/useConta";
 
 const SelecConta = () => {
     const { contas, selecionarConta, contaSelec } = useConta();
+    const [selectedAcc, setSelectedAcc] = useState(null);
+
+    useEffect(() => {
+      if (contaSelec) {
+        setSelectedAcc(contaSelec.idConta);
+      }
+    }, [contaSelec])
+
+    const handleSelectAcc = (idConta) => {
+      console.log("Conta selecionada " + idConta);
+      setSelectedAcc(idConta);
+      selecionarConta(idConta);
+    }
 
     return (
     <div>
@@ -13,10 +26,14 @@ const SelecConta = () => {
         <ul>
           {contas.map((conta) => (
             <li key={conta.idConta}>
-              <button onClick={() => {console.log("Conta selecionada");
-                selecionarConta(conta.idConta)}}>
-                {conta.nome} (Saldo: {conta.saldo})
-                {contaSelec?.idConta === conta.idConta && console.log("Conta selecionada")}
+              <button 
+                className={`account-button ${selectedAcc === conta.idConta ? 'selected' : ''}`}
+              onClick={() => handleSelectAcc(conta.idConta)}>
+                <span className="account-name">{conta.nome}</span>
+                <span className="account-balance">Saldo: R$ {conta.saldo.toFixed(2)}</span>
+                {selectedAcc === conta.idConta && (
+                  <span className="selected-indicator">Selecionada</span>
+                )}
               </button>
             </li>
           ))}

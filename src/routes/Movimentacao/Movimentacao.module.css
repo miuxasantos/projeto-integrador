@@ -1,10 +1,20 @@
-.form__container {
+.container_mov {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__container {
+    background-color: #6abd68;
+    display: flex;
+    width: 30rem;
+    padding: 20px;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    border-radius: 30px;
     box-sizing: border-box;
 }
 
@@ -19,20 +29,40 @@
 
 .input {
     border-radius: 10px;
+    border-style: none;
     width: 250px;
     height: 30px;
 }
 
-.btn {
+.btn_mov {
     width: 100px;
     align-items: center;
     border-radius: 20px;
+    border-style: none;
     height: 30px;
     gap: 10px;
+    background-color: #a7edaf;
+}
+
+.btn_mov:hover {
+    cursor: pointer;
+    background-color: #ccf0d0;
+    border-color: white;
+    border-style: solid;
 }
 
 .lista__container {
     margin-top: 10px;
+    background-color: #a7edaf;
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.lista_mov {
+    margin-top: 10px;
+    background-color: #f7f5f5;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .lista__card {

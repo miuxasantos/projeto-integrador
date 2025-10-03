@@ -4,10 +4,15 @@ import styles from "./Navb.module.css"
 import useAuth from '../../context/AuthContext/useAuth'
 
 const Navb = () => {
-  const { user, logout } = useAuth();
+  const { usuario, logout } = useAuth();
   return (
     <nav className={styles.container}>
-      <div>
+      <div className={styles.title_container}>
+        <h1 className={styles.title}>Centauro</h1>
+        <h2 className={styles.subtitle}>Gestão Financeira Simplificada</h2>
+      </div>
+
+      <div className={styles.div}>
           <Link className={styles.children} to="/">Home</Link>
           <Link className={styles.children} to="/user">User</Link>
           <Link className={styles.children} to="/conta">Conta</Link>
@@ -16,9 +21,9 @@ const Navb = () => {
           <Link className={styles.children} to="/invest">Carteira de Investimentos</Link>
       </div>
 
-      <div className={styles.navb__user}>
-        <span>Bem vindo, {user?.nome}"</span>
-        <button onClick={logout} className={styles.logout__btn}></button>
+      <div className={styles.navb_user}>
+        <span>Bem vindo, {usuario?.nome}</span>
+        <button onClick={logout} className={styles.logout_btn}>Sair</button>
       </div>
     </nav>
   )

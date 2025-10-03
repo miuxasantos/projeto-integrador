@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./Metas.module.css";
+import { useConta } from "../../context/ContaContext/useConta";
+import api from "../../services/api.js";
 
 const Metas = () => {
+  const { contaSelec } = useConta();
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({
     idMeta: "",
@@ -10,30 +12,33 @@ const Metas = () => {
     objetivo: "",
     quantia: "",
     progresso: "",
-    contas_idConta: "",
+    //contas_idConta: "",
   });
   const [editingId, setEditingId] = useState(null);
-  const [contas, setContas] = useState([]);
+  const [ loading, setLoading ] = useState(true);
 
-  const api = "http://localhost:3030/metas";
-  const apiAcc= "http://localhost:3030/conta";
+  const fetchData = useCallback(async () => {
+    if(!contaSelec?.idConta) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
+    
+    setLoading(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
     try {
-      const [metasResponse, contaResponse] = await Promise.all([
-        axios.get(`${api}/allgoals`),
-        axios.get(`${apiAcc}/allacc`),
-      ]);
-      setItems(metasResponse.data);
-      setContas(contaResponse.data);
+      const movResponse = await api.get(`/metas/${contaSelec.idConta}`);
+      setItems(movResponse.data);
     } catch (err) {
       console.log("Algo deu errado...", err);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [contaSelec?.idConta]);
+
+  useEffect(() => {
+      fetchData();
+  }, [fetchData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,24 +51,34 @@ const Metas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const prepareData = {
-      ...formData,
-      contas_idConta: parseInt(formData.contas_idConta),
-      progresso: parseInt(formData.progresso),
-      quantia: parseFloat(formData.quantia),
+    if (!contaSelec?.idConta) {
+      console.log("Nenhuma conta selecionada");
+      return;
     }
-    console.log(prepareData)
+
+    setLoading(true);
+
     try {
+
+      const prepareData = {
+        ...formData,
+        //contas_idConta: parseInt(formData.contaSelec.idConta),
+        progresso: parseInt(formData.progresso),
+        quantia: parseFloat(formData.quantia),
+      }
+
       if (editingId) {
-        await axios.put(`${api}/${editingId}`, prepareData);
+        await api.put(`/metas/${contaSelec.idConta}/metas/${editingId}`, prepareData);
       } else {
-        await axios.post(`${api}`, prepareData);
+        await api.post(`/metas/${contaSelec.idConta}`, prepareData);
       }
 
       resetForm();
-      fetchData();
+      await fetchData();
     } catch (err) {
       console.log("Algo deu errado...", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,17 +89,20 @@ const Metas = () => {
       objetivo: item.objetivo || "",
       quantia: item.quantia || "",
       progresso: item.progresso || "",
-      contas_idConta: item.contas_idConta || "",
+      //contas_idConta: parseInt(formData.contas_idConta) || contaSelec?.idConta || "",
     });
     setEditingId(item.idMeta);
   };
 
   const handleDelete = async (idMeta) => {
+    setLoading(true);
     try {
-      await axios.delete(`${api}/${idMeta}`);
-      fetchData();
+      await api.delete(`/metas/${contaSelec.idConta}/metas/${idMeta}`);
+      await fetchData();
     } catch (err) {
       console.log("Algo deu errado...", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,10 +113,18 @@ const Metas = () => {
       objetivo: "",
       quantia: "",
       progresso: "",
-      contas_idConta: "",
+      contas_idConta: parseInt(formData.contas_idConta) || contaSelec?.idConta,
     });
     setEditingId(null);
   };
+
+  if(!contaSelec) {
+      return <p>Por favor, selecione sua conta.</p>
+  }
+
+  if (loading && items.length === 0) {
+    return <p>Carregando metas...</p>;
+  }
 
   return (
     <div>
@@ -144,6 +170,7 @@ const Metas = () => {
           />
         </div>
 
+{/*Alterar para ficar automático! */}
         <div className={styles.input__div}>
           <label>progresso:</label>
           <input
@@ -156,7 +183,7 @@ const Metas = () => {
           />
         </div>
 
-        <div className={styles.input__div}>
+        {/* <div className={styles.input__div}>
           <label>conta:</label>
           <select
             name="contas_idConta"
@@ -172,14 +199,14 @@ const Metas = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
-        <button type="submit" className={styles.btn}>
-          {editingId ? "Atualizar" : "Salvar"}
+        <button type="submit" disabled={loading} className={styles.btn}>
+          {loading ? "Salvando..." : (editingId ? "Atualizar" : "Salvar")}
         </button>
 
         {editingId && (
-          <button type="button" onClick={resetForm} className={styles.btn}>
+          <button type="button" onClick={resetForm} disabled={loading} className={styles.btn}>
             Cancelar
           </button>
         )}
@@ -199,19 +226,21 @@ const Metas = () => {
                   <h3>Nome: {item.nome}</h3>
                   <p>Objetivo: {item.objetivo}</p>
                   <p>Quantia: {item.quantia}</p>
-                  <p>Progresso: {item.progresso}%</p>
+                  <p>Progresso: {item.progresso}</p>
                   <p>Id da conta: {item.contas_idConta}</p>
                 </div>
 
                 <div className={styles.lista__btn}>
-                  <button onClick={() => handleEdit(item)} className={styles.btn}>
+                  <button onClick={() => handleEdit(item)}
+                    disabled={loading} 
+                    className={styles.btn}>
                     Editar
                   </button>
 
                   <button
                     onClick={() => handleDelete(item.idMeta)}
-                    className={styles.btn}
-                  >
+                    disabled={loading}
+                    className={styles.btn}>
                     Excluir
                   </button>
                 </div>

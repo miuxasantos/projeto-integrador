@@ -8,18 +8,29 @@
   text-align: center;
   background-color: var(--main-bg-color);
   font-family: "Montserrat", sans-serif;
+  min-height: 100vh;
 }
 
 .App {
+  flex: 1 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: var(--forms-bg);
   margin: 0;
   padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .container {
   margin-bottom: 20px;
+}
+
+.footer {
+    margin-top: auto; /* Remove qualquer espaço extra abaixo */
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
