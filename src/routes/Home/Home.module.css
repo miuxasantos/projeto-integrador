@@ -1,0 +1,111 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.saldo {
+    background-color: #a7dced;
+    padding: 40px 60px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.saldo__title {
+    font-weight: 600;
+    font-size: large;
+}
+
+.saldo__valor {
+    font-size: large;
+}
+
+.content {
+    display: flex;
+    gap: 2rem;
+}
+
+.mov__container {
+    background-color: #f1cfb0;
+    padding: 20px 40px;
+    border-radius: 30px;
+}
+
+.mov__title {
+    font-size: medium;
+    font-weight: 600;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f5f5;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 10px;
+    margin-top: 8px;
+    justify-content: space-between;
+}
+
+.movimentacoes {
+    
+}
+
+.movimentacao {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info {
+    display: flex;
+    gap: 10px;
+    font-size: medium;
+}
+
+.nome {
+
+}
+
+.data {
+
+}
+
+.valor {
+
+}
+
+.metas__container {
+    background-color: #a7edaf;
+    padding: 20px 40px;
+    border-radius: 30px;
+}
+
+.lista__metas {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 6px;
+    justify-content: space-between;
+}
+
+.metas__title {
+    font-weight: 600;
+}
+
+.lista__card {
+    background-color: #f7f5f5;
+    padding: 16px;
+    border-radius: 20px 0 20px 0;
+}
+
+.lista__info {
+    text-align: left;
+}
+

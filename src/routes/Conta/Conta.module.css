@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 4rem;
@@ -131,4 +131,181 @@
 
 .selecConta__p {
     font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 20px;
+    }
+    
+    .lista__ul {
+        gap: 2rem;
+        padding: 15px;
+    }
+    
+    .form__container {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .input {
+        width: 220px;
+    }
+}
+
+/* Celulares maiores (576px - 768px) */
+@media (max-width: 768px) {
+    .container {
+        gap: 1.5rem;
+    }
+    
+    .lista__ul {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 15px;
+    }
+    
+    .form__container {
+        padding: 15px;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .input {
+        width: 200px;
+        height: 28px;
+    }
+    
+    .btn {
+        width: 55px;
+        height: 28px;
+    }
+    
+    .lista__card {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .lista__info {
+        gap: 12px;
+    }
+    
+    .btn__conta, .selecConta {
+        width: 70px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
+
+/* Celulares pequenos (até 576px) */
+@media (max-width: 576px) {
+    .container {
+        gap: 1rem;
+        padding: 0 15px;
+    }
+    
+    .form__container {
+        padding: 12px;
+        border-radius: 15px;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .input__div {
+        gap: 8px;
+    }
+    
+    .input {
+        width: 180px;
+        height: 25px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+    
+    .btn {
+        width: 50px;
+        height: 25px;
+        font-size: 12px;
+        border-radius: 15px;
+    }
+    
+    .lista__ul {
+        padding: 12px;
+        border-radius: 20px;
+        gap: 0.8rem;
+    }
+    
+    .lista__card {
+        padding: 12px;
+        border-radius: 15px;
+        gap: 10px;
+        margin-top: 12px;
+    }
+    
+    .lista__info {
+        gap: 10px;
+        font-size: 14px;
+    }
+    
+    .lista__btn {
+        gap: 12px;
+    }
+    
+    .btn__conta, .selecConta {
+        width: 65px;
+        height: 25px;
+        font-size: 12px;
+        border-radius: 15px;
+        gap: 8px;
+    }
+    
+    .div__h2, .lista__h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Telas muito pequenas (até 400px) */
+@media (max-width: 400px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .form__container {
+        padding: 10px;
+        gap: 12px;
+    }
+    
+    .input {
+        width: 160px;
+        height: 22px;
+        font-size: 13px;
+    }
+    
+    .btn {
+        width: 45px;
+        height: 22px;
+        font-size: 11px;
+    }
+    
+    .lista__ul {
+        padding: 10px;
+    }
+    
+    .lista__card {
+        padding: 10px;
+    }
+    
+    .btn__conta, .selecConta {
+        width: 60px;
+        height: 22px;
+        font-size: 11px;
+    }
+    
+    .lista__btn {
+        gap: 10px;
+    }
 }

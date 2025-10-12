@@ -1,0 +1,40 @@
+.container_filtro {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.select_filtro {
+    border-radius: 30px;
+    width: 120px;
+    height: 30px;
+    text-align: center;
+    border-style: solid;
+    border-color: gray;
+}
+
+.input_filtro {
+    border-radius: 30px;
+    width: 120px;
+    height: 30px;
+    text-align: center;
+    border-style: solid;
+    border-color: gray;
+}
+
+.btn_filtro {
+    width: 100px;
+    align-items: center;
+    border-radius: 20px;
+    border-style: none;
+    height: 30px;
+    gap: 10px;
+    background-color: #a7edaf;
+}
+
+.btn_filtro:hover {
+    cursor: pointer;
+    background-color: #ccf0d0;
+    border-color: white;
+    border-style: solid;
+}

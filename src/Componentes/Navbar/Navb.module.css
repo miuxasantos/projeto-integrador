@@ -21,10 +21,14 @@
 
 .title {
     font-size: 22px;
+    font-weight: 800;
+    color: white;
 }
 
 .subtitle {
     font-size: 18px;
+    font-weight: 600;
+    color: white;
 }
 
 .div {
@@ -53,6 +57,7 @@
     align-items: center;
     gap: 6px;
     max-width: 100%;
+    color: white;
 }
 
 .logout_btn {

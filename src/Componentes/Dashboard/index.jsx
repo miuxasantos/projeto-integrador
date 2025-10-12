@@ -91,7 +91,7 @@ const Dashboard = ({ contaSelec }) => {
                     <button onClick={carregarDados} className={styles.btnAtualizar}>Atualizar</button>
                 </div>
 
-                <div>
+                <div className={styles.content_pdf}>
                     {estatisticas && extrato && relatorioMensal &&
                         <PDFDownloadLink
                             document={
@@ -110,25 +110,25 @@ const Dashboard = ({ contaSelec }) => {
                 </div>
             </div>
 
-            <div>
-                <div>
+            <div className={styles.content_chart}>
+                <div className={styles.piechart}>
                     <PieChart data={chartData.pieChartData} title="Distribuição por categoria" />
                 </div>
 
-                <div>
+                <div className={styles.barchart}>
                     <BarChart data={chartData.barChartData} title="Resumo financeiro" />
                 </div>
 
               </div>
 
-                <div>
+                <div className={styles.summary}>
                     <h3>Resumo</h3>
                     <p>Entradas: R$ {estatisticas.totalEntradas?.toFixed(2)}</p>
                     <p>Saídas: R$ {estatisticas.totalSaidas?.toFixed(2)}</p>
                     <p>Saldo: R$ {estatisticas.saldoPeriodo?.toFixed(2)}</p>
                 </div>
 
-            <div>
+            <div className={styles.last}>
                 <h3>Últimas Movimentações</h3>
                 {extrato.slice(0, 5).map(mov => (
                 <div key={mov.idMov}>

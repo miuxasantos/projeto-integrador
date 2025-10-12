@@ -143,126 +143,128 @@ const Movimentacao = () => {
     return (
       <div className={styles.container_mov}>
         {/* Formulário */}
-        <form onSubmit={handleSubmit} className={styles.form__container}>
-          <input type="hidden" name="idMov" value={formData.idMov} />
+        <div className={styles.content_mov}>
+          <form onSubmit={handleSubmit} className={styles.form__container}>
+            <input type="hidden" name="idMov" value={formData.idMov} />
 
-          <div className={styles.input__div}>
-            <label>Nome:</label>
-            <input
-              type="text"
-              name="nome"
-              value={formData.nome}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
+            <div className={styles.input__div}>
+              <label>Nome:</label>
+              <input
+                type="text"
+                name="nome"
+                value={formData.nome}
+                onChange={handleInputChange}
+                required
+                className={styles.input}
+              />
+            </div>
 
-          <div className={styles.input__div}>
-            <label>Valor:</label>
-            <input
-              type="number"
-              name="valor"
-              step="0.01"
-              value={formData.valor}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
+            <div className={styles.input__div}>
+              <label>Valor:</label>
+              <input
+                type="number"
+                name="valor"
+                step="0.01"
+                value={formData.valor}
+                onChange={handleInputChange}
+                required
+                className={styles.input}
+              />
+            </div>
 
-          <div className={styles.input__div}>
-            <label>Tipo:</label>
-            <select
-              type="text"
-              name="tipo"
-              value={formData.tipo}
-              onChange={handleInputChange}
-              required
-              className={styles.input}>
-              <option value="">Selecione a espécie de gasto</option>
-              <option value="variavel">Variável</option>
-              <option value="fixa">Fixa</option>
-              <option value="superfluo">Superflúo</option>
-              <option value="essencial">Essencial</option>
-            </select>
-          </div>
+            <div className={styles.input__div}>
+              <label>Tipo:</label>
+              <select
+                type="text"
+                name="tipo"
+                value={formData.tipo}
+                onChange={handleInputChange}
+                required
+                className={styles.input}>
+                <option value="">Selecione a espécie de gasto</option>
+                <option value="variavel">Variável</option>
+                <option value="fixa">Fixa</option>
+                <option value="superfluo">Superflúo</option>
+                <option value="essencial">Essencial</option>
+              </select>
+            </div>
 
-          <div className={styles.input__div}>
-            <label>Modo da Movimentação:</label>
-            <select
-              type="text"
-              name="tipoMovimentacao"
-              value={formData.tipoMovimentacao}
-              onChange={handleInputChange}
-              required
-              className={styles.input}>
-              <option value="">Selecione o tipo da movimentação</option>
-              <option value="credito">Crédito na conta</option>
-              <option value="debito">Débito na conta</option>
-            </select>
-          </div>
+            <div className={styles.input__div}>
+              <label>Modo da Movimentação:</label>
+              <select
+                type="text"
+                name="tipoMovimentacao"
+                value={formData.tipoMovimentacao}
+                onChange={handleInputChange}
+                required
+                className={styles.input}>
+                <option value="">Selecione o tipo da movimentação</option>
+                <option value="credito">Crédito na conta</option>
+                <option value="debito">Débito na conta</option>
+              </select>
+            </div>
 
-          <div className={styles.input__div}>
-            <label>Categoria:</label>
-            <input
-              type="text"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
+            <div className={styles.input__div}>
+              <label>Categoria:</label>
+              <input
+                type="text"
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleInputChange}
+                required
+                className={styles.input}
+              />
+            </div>
 
-          <button type="submit" disabled={loading} className={styles.btn_mov}>
-            {loading? "Salvando..." : (editingId ? "Atualizar" : "Salvar")}
-          </button>
-
-          {editingId && (
-            <button type="button" disabled={loading} onClick={resetForm} className={styles.btn_mov}>
-              Cancelar
+            <button type="submit" disabled={loading} className={styles.btn_mov}>
+              {loading? "Salvando..." : (editingId ? "Atualizar" : "Salvar")}
             </button>
-          )}
-        </form>
-        
-        {/* Lista de Itens */}
-        <div className={styles.lista__container}>
-          <h2>Movimentações Cadastradas da Conta: {contaSelec.nome}</h2>
 
-          {items.length === 0 ? (
-            <p>Nenhuma movimentação cadastrada.</p>
-          ) : (
-            <ul className={styles.lista_mov}>
-              {items.map((item) => (
-                <li key={item.idMov || item.nome} className={styles.lista__card}>
-                  <div className={styles.lista__info}>
-                    <h3>Nome: {item.nome}</h3>
-                    <p>Valor: {item.valor}</p>
-                    <p>Tipo: {item.tipo}</p>
-                    <p>Tipo de Movimentação: {item.tipoMovimentacao}</p>
-                    <p>Categoria: {item.categoria}</p>
-                  </div>
+            {editingId && (
+              <button type="button" disabled={loading} onClick={resetForm} className={styles.btn_mov}>
+                Cancelar
+              </button>
+            )}
+          </form>
+          
+          {/* Lista de Itens */}
+          <div className={styles.lista__container}>
+            <h2>Movimentações Cadastradas da Conta: {contaSelec.nome}</h2>
 
-                  <div className={styles.lista__btn}>
-                    <button onClick={() => handleEdit(item)} className={styles.btn_mov}>
-                      Editar
-                    </button>
+            {items.length === 0 ? (
+              <p>Nenhuma movimentação cadastrada.</p>
+            ) : (
+              <ul className={styles.lista_mov}>
+                {items.map((item) => (
+                  <li key={item.idMov || item.nome} className={styles.lista__card}>
+                    <div className={styles.lista__info}>
+                      <h3>Nome: {item.nome}</h3>
+                      <p>Valor: {item.valor}</p>
+                      <p>Tipo: {item.tipo}</p>
+                      <p>Tipo de Movimentação: {item.tipoMovimentacao}</p>
+                      <p>Categoria: {item.categoria}</p>
+                    </div>
 
-                    <button
-                      onClick={() => handleDelete(item.idMov)}
-                      className={styles.btn_mov}
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                    <div className={styles.lista__btn}>
+                      <button onClick={() => handleEdit(item)} className={styles.btn_mov}>
+                        Editar
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(item.idMov)}
+                        className={styles.btn_mov}
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
-         <React.Suspense fallback={<div><p>Carregando Dashboard...</p></div>}>
+        <React.Suspense fallback={<div><p>Carregando Dashboard...</p></div>}>
           <Dashboard contaSelec={contaSelec} />
         </React.Suspense>
 

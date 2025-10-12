@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../../services/api";
 import styles from "./Usuario.module.css";
 
 const Usuario = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [formData, setFormData] = useState({
     idUsuario: "",
     nome: "",
@@ -14,18 +14,23 @@ const Usuario = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    console.log("🎯 editingId ATUALIZADO:", editingId);
+  }, [editingId]);
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const response = await api.get("/user/me");
       setItems(response.data);
       console.log(response.data);
+      console.log(items)
     } catch (err) {
       console.log("Algo deu errado...", err);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,8 +44,13 @@ const Usuario = () => {
     e.preventDefault();
 
     try {
+      const dataSend = {
+        ... formData,
+        idUsuario: editingId,
+      }
+
       if (editingId) {
-        await api.put(`/user/me/${editingId}`, formData);
+        await api.put(`/user/${editingId}`, dataSend);
       } else {
         await api.post("/user", formData);
       }
@@ -57,15 +67,18 @@ const Usuario = () => {
       idUsuario: item.idUsuario || "",
       nome: item.nome || "",
       email: item.email || "",
-      senha: item.senha || "",
+      senha: "",
       tipo: item.tipo || "",
     });
-    setEditingId(item.idUsuario);
+
+    const newEditingId = item.idUsuario;
+    setEditingId(newEditingId);
+    console.log(editingId);
   };
 
   const handleDelete = async (idUsuario) => {
     try {
-      await api.delete(`/ user/${idUsuario}`);
+      await api.delete(`/user/${idUsuario}`);
       fetchItems();
     } catch (err) {
       console.log("Algo deu errado...", err);
@@ -134,9 +147,9 @@ const Usuario = () => {
 
       {/* Formulário */}
       <form onSubmit={handleSubmit} className={styles.form_container}>
-      { editingId ? (
+      {editingId ? (
         <>
-        <input type="hidden" name="idMeta" value={formData.idUsuario} />
+        <input type="hidden" name="idUsuario" value={formData.idUsuario} />
 
         <div className={styles.input__div}>
           <label className={styles.input__label}>Nome:</label>

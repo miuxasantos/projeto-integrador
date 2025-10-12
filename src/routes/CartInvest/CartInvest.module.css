@@ -1,11 +1,32 @@
+.invest__container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.container__porquinho {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .form__container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
     box-sizing: border-box;
+    background-color: #6abd68;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .input__div {
@@ -20,26 +41,45 @@
     border-radius: 10px;
     width: 250px;
     height: 30px;
+    border-style: none;
 }
 
 .btn {
-    width: 60px;
-    align-items: center;
-    border-radius: 20px;
+    width: 80px;
     height: 30px;
-    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-style: none;
+    border-radius: 20px;
+    background-color: #a7edaf;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #bdf1c3;
+    border-color: white;
+    border-style: solid;
 }
 
 .lista__container {
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #a7edaf;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .lista__card {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 20px;
     gap: 16px;
-    margin-top: 16px;
+    background-color: #f7f5f5;
+    border-radius: 20px;
 }
 
 .lista__info {
@@ -53,4 +93,377 @@
     display: flex;
     justify-content: center;
     gap: 16px;  
+}
+
+.img__invest {
+    max-width: 200px;
+    border-radius: 30px;
+}
+
+.dicas {
+    display: flex;
+    flex-direction: column;
+    background-color: #a7edaf;
+    padding: 20px;
+    max-width: 90%;
+    width: 800px;
+    height: 516px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.dicas__h2 {
+    margin: 20px;
+}
+
+.dicas__lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-right: 5px;
+}
+
+.dicas__card {
+    background-color: #f7f5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 30px;
+}
+
+.dicas__title {
+
+}
+
+.dicas__info {
+
+}
+
+.dicas__lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dicas__lista::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+    height: 20px;
+}
+
+.dicas__lista::-webkit-scrollbar-thumb {
+    background: #6abd68;
+    border-radius: 4px;
+}
+
+.dicas__lista::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+@media (max-width: 1024px) {
+    .invest__container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 1.5rem auto;
+    }
+    
+    .container__porquinho {
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .dicas {
+        width: 100%;
+        max-width: 500px;
+        height: 400px;
+    }
+    
+    .form__container {
+        width: 100%;
+    }
+    
+    .lista__container {
+        width: 100%;
+    }
+    
+    .img__invest {
+        max-width: 180px;
+        align-self: center;
+    }
+}
+
+/* Celulares maiores (576px - 768px) */
+@media (max-width: 768px) {
+    .invest__container {
+        margin: 1rem auto;
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .form__container {
+        padding: 15px;
+        border-radius: 20px;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .input__div {
+        gap: 8px;
+    }
+    
+    .input {
+        width: 200px;
+        height: 28px;
+        font-size: 14px;
+    }
+    
+    .btn {
+        width: 70px;
+        height: 28px;
+        font-size: 14px;
+        gap: 12px;
+    }
+    
+    .lista__container {
+        padding: 15px;
+        border-radius: 20px;
+        gap: 15px;
+    }
+    
+    .lista__card {
+        padding: 15px;
+        gap: 12px;
+        border-radius: 15px;
+    }
+    
+    .lista__info {
+        gap: 12px;
+        font-size: 14px;
+    }
+    
+    .lista__btn {
+        gap: 12px;
+    }
+    
+    .dicas {
+        padding: 15px;
+        height: 350px;
+        border-radius: 20px;
+    }
+    
+    .dicas__h2 {
+        margin: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .dicas__lista {
+        gap: 15px;
+    }
+    
+    .dicas__card {
+        padding: 8px;
+        gap: 15px;
+        border-radius: 20px;
+    }
+    
+    .img__invest {
+        max-width: 150px;
+    }
+}
+
+/* Celulares pequenos (até 576px) */
+@media (max-width: 576px) {
+    .invest__container {
+        margin: 0.5rem auto;
+        gap: 0.8rem;
+    }
+    
+    .container__porquinho {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .form__container {
+        padding: 12px;
+        border-radius: 15px;
+        gap: 12px;
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .input__div {
+        gap: 6px;
+    }
+    
+    .input {
+        width: 180px;
+        height: 25px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+    
+    .btn {
+        width: 65px;
+        height: 25px;
+        font-size: 12px;
+        border-radius: 15px;
+        gap: 8px;
+    }
+    
+    .lista__container {
+        padding: 12px;
+        border-radius: 15px;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .lista__card {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+    
+    .lista__info {
+        gap: 10px;
+        font-size: 13px;
+    }
+    
+    .lista__btn {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .dicas {
+        padding: 12px;
+        height: 300px;
+        border-radius: 15px;
+        width: 100%;
+    }
+    
+    .dicas__h2 {
+        margin: 12px;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .dicas__lista {
+        gap: 12px;
+    }
+    
+    .dicas__card {
+        padding: 6px;
+        gap: 12px;
+        border-radius: 15px;
+    }
+    
+    .img__invest {
+        max-width: 120px;
+        margin-top: 10px;
+    }
+}
+
+/* Telas muito pequenas (até 400px) */
+@media (max-width: 400px) {
+    .invest__container {
+        padding: 0 0.25rem;
+    }
+    
+    .form__container {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .input {
+        width: 160px;
+        height: 22px;
+        font-size: 12px;
+    }
+    
+    .btn {
+        width: 60px;
+        height: 22px;
+        font-size: 11px;
+    }
+    
+    .lista__container {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .lista__card {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .lista__info {
+        gap: 8px;
+        font-size: 12px;
+    }
+    
+    .dicas {
+        padding: 10px;
+        height: 280px;
+    }
+    
+    .dicas__h2 {
+        margin: 10px;
+        font-size: 1rem;
+    }
+    
+    .dicas__lista {
+        gap: 10px;
+    }
+    
+    .dicas__card {
+        padding: 5px;
+        gap: 10px;
+    }
+    
+    .img__invest {
+        max-width: 100px;
+    }
+}
+
+/* Ajustes para orientação landscape em mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .invest__container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .container__porquinho {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .dicas {
+        flex: 1;
+        min-width: 300px;
+        height: 250px;
+    }
+    
+    .form__container {
+        margin-top: 10px;
+        padding: 10px;
+    }
+}
+
+/* Ajustes específicos para a imagem do porquinho */
+@media (max-width: 576px) {
+    .container__porquinho {
+        flex-direction: column-reverse;
+    }
+    
+    .img__invest {
+        order: -1;
+        margin-bottom: 10px;
+    }
 }

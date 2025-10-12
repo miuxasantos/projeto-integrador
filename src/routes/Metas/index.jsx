@@ -127,7 +127,7 @@ const Metas = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container__metas}>
 
       {/* Formulário */}
       <form onSubmit={handleSubmit} className={styles.form__container}>
@@ -136,7 +136,7 @@ const Metas = () => {
         <div className={styles.input__div}>
           <label>Nome:</label>
           <input
-            type="text"
+            type="text" 
             name="nome"
             value={formData.nome}
             onChange={handleInputChange}
@@ -170,12 +170,12 @@ const Metas = () => {
           />
         </div>
 
-{/*Alterar para ficar automático! */}
         <div className={styles.input__div}>
           <label>progresso:</label>
           <input
             type="number"
             name="progresso"
+            step="0.01"
             value={formData.progresso}
             onChange={handleInputChange}
             required
@@ -183,30 +183,12 @@ const Metas = () => {
           />
         </div>
 
-        {/* <div className={styles.input__div}>
-          <label>conta:</label>
-          <select
-            name="contas_idConta"
-            value={formData.contas_idConta}
-            onChange={handleInputChange}
-            required
-            className={styles.input}
-          >
-            <option value="">Selecione uma conta</option>
-            {contas.map((conta) => (
-              <option key={conta.idConta} value={conta.idConta}>
-                {conta.nome}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
-        <button type="submit" disabled={loading} className={styles.btn}>
+        <button type="submit" disabled={loading} className={styles.btn__metas}>
           {loading ? "Salvando..." : (editingId ? "Atualizar" : "Salvar")}
         </button>
 
         {editingId && (
-          <button type="button" onClick={resetForm} disabled={loading} className={styles.btn}>
+          <button type="button" onClick={resetForm} disabled={loading} className={styles.btn__metas}>
             Cancelar
           </button>
         )}
@@ -214,12 +196,12 @@ const Metas = () => {
 
       {/* Lista de Itens */}
       <div className={styles.lista__container}>
-        <h2>Metas Cadastradas</h2>
+        <h2 className={styles.lista__h2}>Metas Cadastradas</h2>
 
         {items.length === 0 ? (
-          <p>Nenhuma conta cadastrada.</p>
+          <p>Nenhuma meta cadastrada.</p>
         ) : (
-          <ul>
+          <ul className={styles.lista__metas__ul}>
             {items.map((item) => (
               <li key={item.idMeta || item.nome} className={styles.lista__card}>
                 <div className={styles.lista__info}>
@@ -227,20 +209,19 @@ const Metas = () => {
                   <p>Objetivo: {item.objetivo}</p>
                   <p>Quantia: {item.quantia}</p>
                   <p>Progresso: {item.progresso}</p>
-                  <p>Id da conta: {item.contas_idConta}</p>
                 </div>
 
                 <div className={styles.lista__btn}>
                   <button onClick={() => handleEdit(item)}
                     disabled={loading} 
-                    className={styles.btn}>
+                    className={styles.btn__metas}>
                     Editar
                   </button>
 
                   <button
                     onClick={() => handleDelete(item.idMeta)}
                     disabled={loading}
-                    className={styles.btn}>
+                    className={styles.btn__metas}>
                     Excluir
                   </button>
                 </div>

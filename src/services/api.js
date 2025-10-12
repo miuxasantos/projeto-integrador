@@ -38,13 +38,10 @@ api.interceptors.response.use(
       if(status === 401 && error.config.url.includes('auth/') ) {
       //window.location.href = "/auth/signin"; // ajuste conforme sua rota
 
-      // if (window.location.pathname.startsWith("/auth")) {
-      //   window.location.href = "/auth";
-      // }
-      }
 
       if(status === 403) {
         console.warn("Acesso negado - 403");
+        }
       }
 
     }

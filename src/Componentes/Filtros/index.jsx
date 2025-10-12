@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./Filtros.module.css";
 
 const Filtro = ({ onFiltrar }) => {
     const [ mes, setMes ] = useState(new Date().getMonth() + 1);
@@ -9,8 +10,8 @@ const Filtro = ({ onFiltrar }) => {
     };
 
     return (
-        <div>
-            <select value={mes} onChange={(e) => {setMes(e.target.value)}}>
+        <div className={styles.container_filtro}>
+            <select className={styles.select_filtro} value={mes} onChange={(e) => {setMes(e.target.value)}}>
                 <option value={1}>Janeiro</option>
                 <option value={2}>Fevereiro</option>
                 <option value={3}>Março</option>
@@ -25,7 +26,8 @@ const Filtro = ({ onFiltrar }) => {
                 <option value={12}>Dezembro</option>
             </select>
 
-            <input 
+            <input
+                className={styles.input_filtro}
                 type="number" 
                 value={ano} 
                 onChange={(e) => setAno(e.target.value)}
@@ -33,7 +35,7 @@ const Filtro = ({ onFiltrar }) => {
                 max="2100" 
             />
 
-            <button onClick={handleFiltrar}>Filtrar</button>
+            <button className={styles.btn_filtro} onClick={handleFiltrar}>Filtrar</button>
         </div>
     )
 }
