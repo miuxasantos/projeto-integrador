@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import api from "../../services/api";
 import styles from "./Usuario.module.css";
+import useToast from "../../hooks/useToast";
 
 const Usuario = () => {
   const [items, setItems] = useState(null);
@@ -12,6 +13,7 @@ const Usuario = () => {
     tipo: "",
   });
   const [editingId, setEditingId] = useState(null);
+  const { showSuccess, showError, showLoading, updateToast, dismissToast } = useToast();
 
   useEffect(() => {
     console.log("🎯 editingId ATUALIZADO:", editingId);
@@ -55,10 +57,12 @@ const Usuario = () => {
         await api.post("/user", formData);
       }
 
+      showSuccess('Usuário editado com sucesso!');
       resetForm();
       fetchItems();
     } catch (err) {
       console.log("Algo deu errado...", err);
+      showError('Opa! Parece que algo deu errado ao editar seu usuário.')
     }
   };
 
@@ -73,7 +77,6 @@ const Usuario = () => {
 
     const newEditingId = item.idUsuario;
     setEditingId(newEditingId);
-    console.log(editingId);
   };
 
   const handleDelete = async (idUsuario) => {
@@ -146,9 +149,9 @@ const Usuario = () => {
       </div>
 
       {/* Formulário */}
-      <form onSubmit={handleSubmit} className={styles.form_container}>
+      <form onSubmit={handleSubmit}>
       {editingId ? (
-        <>
+        <div className={styles.form_container}>
         <input type="hidden" name="idUsuario" value={formData.idUsuario} />
 
         <div className={styles.input__div}>
@@ -205,7 +208,7 @@ const Usuario = () => {
         <button type="submit" className={styles.btn}>
           Atualizar
         </button>
-        </>
+        </div>
         ) : (<button type="submit" hidden="true" className={styles.btn}>
           Atualizar
         </button>)}

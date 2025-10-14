@@ -17,6 +17,7 @@
     background-color: #6abd68;
     padding: 20px;
     border-radius: 30px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .input__div {
@@ -62,6 +63,7 @@
     border-radius: 20px 0;
     width: 250px;
     height: 180px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .lista__info {
@@ -85,6 +87,7 @@
     overflow-y: hidden;
     max-height: calc((300px + 20px) * 2);
     box-sizing: border-box;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .lista__metas__ul::-webkit-scrollbar {

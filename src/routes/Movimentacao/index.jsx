@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./Movimentacao.module.css";
 import api from "./../../services/api.js";
 import { useConta } from "../../context/ContaContext/useConta";
+import useToast from "../../hooks/useToast";
 
 const Dashboard = React.lazy(() => import('../../Componentes/Dashboard'));
 
@@ -19,11 +20,13 @@ const Movimentacao = () => {
     });
     const [editingId, setEditingId] = useState(null);
     const [ loading, setLoading ] = useState(true);
+    const { showSuccess, showError, showLoading, updateToast, dismissToast } = useToast();
 
     const fetchData = useCallback(async () => {
       if (!contaSelec?.idConta) return;
       setLoading(true);
-
+      
+      showLoading('Buscando seus dados...');
       try {
         const movResponse = await api.get(`/mov/${contaSelec.idConta}`);
         setItems(movResponse.data);
@@ -59,7 +62,8 @@ const Movimentacao = () => {
       }
 
       setLoading(true);
-
+      
+      const loadingToast = editingId ? showLoading('Editando sua movimentação...') : showLoading('Criando sua movimentação...');
       try {
         const prepareData = {
           nome: formData.nome.trim(),
@@ -76,6 +80,8 @@ const Movimentacao = () => {
           await api.post(`/mov/${contaSelec.idConta}`, prepareData);
         }
 
+        dismissToast(loadingToast);
+        editingId ? showSuccess('Sucesso ao editar a sua movimentação!') : showSuccess('Sucesso ao criar sua movimentação!');
         resetForm();
         await fetchData();
       } catch (err) {
@@ -85,6 +91,8 @@ const Movimentacao = () => {
           data: err.response?.data,
           url: err.config?.url
         });
+
+        showError('Opa, algo deu errado!');
 
       } finally {
         setLoading(false);
@@ -229,7 +237,7 @@ const Movimentacao = () => {
           
           {/* Lista de Itens */}
           <div className={styles.lista__container}>
-            <h2>Movimentações Cadastradas da Conta: {contaSelec.nome}</h2>
+            <h2 className={styles.lista__container__h2}>Movimentações Cadastradas da Conta: {contaSelec.nome}</h2>
 
             {items.length === 0 ? (
               <p>Nenhuma movimentação cadastrada.</p>
@@ -265,7 +273,7 @@ const Movimentacao = () => {
         </div>
 
         <React.Suspense fallback={<div><p>Carregando Dashboard...</p></div>}>
-          <Dashboard contaSelec={contaSelec} />
+          <Dashboard className={styles.dashboard} contaSelec={contaSelec} />
         </React.Suspense>
 
       </div>

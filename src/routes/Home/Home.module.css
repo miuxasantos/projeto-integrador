@@ -1,20 +1,42 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 30px;
-    gap: 1rem;
-    justify-content: center;
+    gap: 4rem;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.container__centauro {
+    max-width: 300px;
+}
+
+.centauro {
+    box-shadow: rgba(4, 88, 4, 0.4) 5px 5px, rgba(9, 143, 27, 0.3) 10px 10px, rgba(86, 255, 95, 0.2) 15px 15px, rgba(17, 212, 50, 0.1) 20px 20px, rgba(58, 243, 74, 0.05) 25px 25px;
+    border-radius: 30px;
+}
+
+.dash__container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     align-items: center;
 
 }
 
 .saldo {
-    background-color: #a7dced;
-    padding: 40px 60px;
+    padding: 20px 30px;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
+    border-color: #408147;
+    border-style: solid;
+    border-width: 4px;
+    max-width: 300px;
+    height: 100px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .saldo__title {
@@ -35,6 +57,7 @@
     background-color: #f1cfb0;
     padding: 20px 40px;
     border-radius: 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;  
 }
 
 .mov__title {
@@ -85,6 +108,7 @@
     background-color: #a7edaf;
     padding: 20px 40px;
     border-radius: 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .lista__metas {

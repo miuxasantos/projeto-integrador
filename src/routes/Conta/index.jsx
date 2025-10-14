@@ -3,9 +3,9 @@ import styles from "./Conta.module.css";
 import useAuth from "../../context/AuthContext/useAuth";
 import api from "../../services/api";
 import { useConta } from "../../context/ContaContext/useConta";
+import useToast from "../../hooks/useToast";
 
 const Conta = () => {
-    console.log("🎯 COMPONENTE CONTA RENDERIZADO!"); // ← ESTE LOG APARECE?
   const { usuario, token } = useAuth();
   const [formData, setFormData] = useState({
     idConta: "",
@@ -16,10 +16,7 @@ const Conta = () => {
   const [editingId, setEditingId] = useState(null);
   const [ loading, setLoading ] = useState(false);
   const { contaSelec, selecionarConta, contas, fetchContas} = useConta();
-
-    console.log("🎯 Dados do contexto:", { usuario, token, contas }); // ← E ESTE?
-        console.log("✅ Hooks carregados:", { usuario });
-
+  const { showSuccess, showError, showLoading, updateToast, dismissToast } = useToast();
 
   useEffect(() => {
     if (usuario?.idUsuario && token) {
@@ -51,6 +48,7 @@ const Conta = () => {
 
     setLoading(true);
 
+    const loadingToast = showLoading('Processando...');
     try {
       const prepareData = {
         ...formData,
@@ -65,11 +63,14 @@ const Conta = () => {
         await api.post("/conta", prepareData);
       }
 
-      resetForm();
+      dismissToast(loadingToast);
+      editingId ? showSuccess('Sucesso ao editar a conta!') : showSuccess('Sucesso ao criar sua conta');
 
+      resetForm();
       await fetchContas();
     } catch (err) {
       console.log("Algo deu errado...", err);
+      showError('Opa, parece que algo deu errado.');
     } finally {
       setLoading(false);
     }
@@ -112,7 +113,7 @@ const Conta = () => {
     <div className={styles.container}>
       
       <form onSubmit={handleSubmit} className={styles.form__container}>
-        {editingId ? <p>Editar sua conta</p> : <p>Criar nova conta</p>}
+        {editingId ? <p className={styles.form__title}>Editar sua conta</p> : <p className={styles.form__title}>Criar nova conta</p>}
         <input type="hidden" name="idConta" value={formData.idConta} />
 
         <div className={styles.input__div}>

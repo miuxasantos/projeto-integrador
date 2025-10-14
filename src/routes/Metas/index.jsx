@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./Metas.module.css";
 import { useConta } from "../../context/ContaContext/useConta";
 import api from "../../services/api.js";
+import useToast from "../../hooks/useToast.js";
 
 const Metas = () => {
   const { contaSelec } = useConta();
@@ -16,7 +17,8 @@ const Metas = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [ loading, setLoading ] = useState(true);
-
+  const { showSuccess, showError, showLoading, updateToast, dismissToast } = useToast();
+  
   const fetchData = useCallback(async () => {
     if(!contaSelec?.idConta) {
       setItems([]);
@@ -57,6 +59,7 @@ const Metas = () => {
     }
 
     setLoading(true);
+    const loadingToast = showLoading('Processando...');
 
     try {
 
@@ -73,10 +76,13 @@ const Metas = () => {
         await api.post(`/metas/${contaSelec.idConta}`, prepareData);
       }
 
+      dismissToast(loadingToast);
+      editingId ? showSuccess('Sucesso ao editar a sua meta!') : showSuccess('Sucesso ao criar a sua meta!');
       resetForm();
       await fetchData();
     } catch (err) {
       console.log("Algo deu errado...", err);
+      showError('Opa... Algo deu errado!');
     } finally {
       setLoading(false);
     }

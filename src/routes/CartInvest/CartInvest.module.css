@@ -27,6 +27,7 @@
     background-color: #6abd68;
     padding: 20px;
     border-radius: 30px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .input__div {
@@ -70,6 +71,7 @@
     background-color: #a7edaf;
     padding: 20px;
     border-radius: 30px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .lista__card {
@@ -111,6 +113,7 @@
     border-radius: 30px;
     overflow: hidden;
     box-sizing: border-box;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .dicas__h2 {
@@ -137,6 +140,7 @@
     width: 100%;
     box-sizing: border-box;
     border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .dicas__title {

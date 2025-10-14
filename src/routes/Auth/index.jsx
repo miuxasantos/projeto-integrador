@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 import api from "../../services/api";
 import useAuth from "../../context/AuthContext/useAuth";
+import useToast from "../../hooks/useToast";
 
 const Auth = ({ mode = "signin" }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,6 +20,7 @@ const Auth = ({ mode = "signin" }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isAuthenticated } = useAuth();
+  const { showSuccess, showError, showLoading, updateToast, dismissToast } = useToast();
 
   useEffect(() => {
     const path = location.pathname;
@@ -78,6 +80,8 @@ const Auth = ({ mode = "signin" }) => {
     setError("");
     setLoading(true);
 
+    const loadingToastId =  isLogin ? showLoading('Realizando login...') : showLoading('Criando usuário...');
+
     try {
       const endpoint = isLogin ? "auth/signin" : "auth/signup";
       const dataToSend = isLogin 
@@ -85,10 +89,6 @@ const Auth = ({ mode = "signin" }) => {
         : formData;
 
       const response = await api.post(endpoint, dataToSend);
-
-      console.log("Resposta completa do servidor:", response.data);
-      console.log("Token recebido:", response.data.token);
-      console.log("Dados do usuário recebidos:", response.data.usuario || response.data.user);
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("usuario", JSON.stringify(response.data.usuario || response.data.user));
@@ -98,9 +98,14 @@ const Auth = ({ mode = "signin" }) => {
         
         setTimeout(() => {
           navigate("/");
-        }, 100);
+        }, 600);
       }
+
+      dismissToast(loadingToastId);
+      showSuccess('Bem-vindo!');
     } catch (error) {
+      dismissToast(loadingToastId);
+      isLogin ? showError('Algo deu errado ao fazer seu login... Por favor, confira os dados e tente novamente.') : showError('Algo deu errado ao criar sua conta, verique seus dados e tente novamente!')
       setError(error.response?.data?.error || "Erro ao processar solicitação.");
     } finally {
       setLoading(false);

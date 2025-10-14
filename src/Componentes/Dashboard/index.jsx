@@ -111,16 +111,20 @@ const Dashboard = ({ contaSelec }) => {
             </div>
 
             <div className={styles.content_chart}>
-                <div className={styles.piechart}>
-                    <PieChart data={chartData.pieChartData} title="Distribuição por categoria" />
-                </div>
 
-                <div className={styles.barchart}>
-                    <BarChart data={chartData.barChartData} title="Resumo financeiro" />
+                <div className={styles.charts}>
+                    <div className={styles.piechart}>
+                        <PieChart data={chartData.pieChartData} title="Distribuição por categoria" />
+                    </div>
+
+                    <div className={styles.barchart}>
+                        <BarChart data={chartData.barChartData} title="Resumo financeiro" />
+                    </div>
                 </div>
 
               </div>
 
+              <div className={styles.summary__container}>
                 <div className={styles.summary}>
                     <h3>Resumo</h3>
                     <p>Entradas: R$ {estatisticas.totalEntradas?.toFixed(2)}</p>
@@ -128,13 +132,14 @@ const Dashboard = ({ contaSelec }) => {
                     <p>Saldo: R$ {estatisticas.saldoPeriodo?.toFixed(2)}</p>
                 </div>
 
-            <div className={styles.last}>
-                <h3>Últimas Movimentações</h3>
-                {extrato.slice(0, 5).map(mov => (
-                <div key={mov.idMov}>
-                    {mov.nome} - R$ {mov.valor}
+                <div className={styles.last}>
+                    <h3>Últimas Movimentações</h3>
+                    {extrato.slice(0, 5).map(mov => (
+                    <div key={mov.idMov}>
+                        {mov.nome} - R$ {mov.valor}
+                    </div>
+                    ))}
                 </div>
-                ))}
             </div>
         </div>
     )

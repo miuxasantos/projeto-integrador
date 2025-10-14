@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 import { useConta } from "../../context/ContaContext/useConta";
 import { MovService } from '../../services/movService';
 import api from '../../services/api';
+import centauro from '../../assets/img/centauro.png'
 
 
 const Home = () => {
@@ -99,6 +100,13 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+
+      <div className={styles.container__centauro}>
+        <img src={centauro} className={styles.centauro} />
+      </div>
+
+      <div className={styles.dash__container}>
+
       <div className={styles.saldo}>
         <h2 className={styles.saldo__title}>Saldo Atual</h2>
         <p className={styles.saldo__valor}>{formatarSaldo()}</p>
@@ -152,6 +160,7 @@ const Home = () => {
             </ul>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

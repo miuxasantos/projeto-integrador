@@ -1,31 +1,60 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from "@react-pdf/renderer";
-import html2canvas from 'html2canvas';
 
 const styles = StyleSheet.create({
     page: {
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
-    padding: 30
+    backgroundColor: '#f8f8f3',
+    padding: 20,
     },
     header: {
+        paddingVertical: 10,
         fontSize: 20,
-        marginBottom: 20,
+        margin: 20,
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#04471c',
+        backgroundColor: '#b0d6af',
+        borderRadius: 30,
+    },
+    title: {
+        paddingVertical: 10,
+        marginBottom: 10,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18,
     },
     section: {
+        backgroundColor: '#b0d6af',
         margin: 10,
-        padding: 10,
-        flexGrow: 1
+        padding: 20,
+        flexGrow: 1,
+        border: '2pt solid #04471c',
+        borderRadius: 30,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#333333'
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 5,
+        paddingVertical: 3
     },
     table: {
+        backgroundColor: '#b0d6af',
         display: 'table',
         width: 'auto',
         borderStyle: 'solid',
         borderWidth: 1,
         borderRightWidth: 0,
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        border: '2pt solid #04471c',
+        borderRadius: 30,
+        padding: 20,
     },
     tableRow: {
         margin: 'auto',
@@ -49,8 +78,9 @@ const styles = StyleSheet.create({
 const ReportPdf = ({ data, periodo }) => {
     return (
         <Document>
-            <Page>
-                <Text>Relatório</Text>
+            <Page style={styles.page}>
+                <Text style={styles.header}>Cenaturo Gestão Financeira Simplificada</Text>
+                <Text style={styles.title}>Relatório</Text>
                 <Text>Período: {periodo}</Text>
 
                 <View style={styles.section}>

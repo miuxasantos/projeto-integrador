@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./CartInvest.module.css";
 import api from "../../services/api.js";
 import { useConta } from "../../context/ContaContext/useConta.jsx";
+import piggybank from "../../assets/img/piggybank.png";
 
 const CartInvest = () => {
   const { contaSelec } = useConta();
@@ -41,38 +42,6 @@ const CartInvest = () => {
       [name]: value || "",
     });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const prepareData = {
-  //     ...formData,
-  //     contas_idConta: parseInt(formData.contas_idConta),
-  //     valor: parseFloat(formData.valor),
-  //   }
-  //   console.log(prepareData)
-  //   try {
-  //     if (editingId) {
-  //       await api.put(`/invest/${contaSelec.idConta}/invest/${editingId}`, prepareData);
-  //     } else {
-  //       await api.post(`/invest/${contaSelec.idConta}`, prepareData);
-  //     }
-
-  //     resetForm();
-  //     fetchData();
-  //   } catch (err) {
-  //     console.log("Algo deu errado...", err);
-  //   }
-  // };
-
-  // const handleEdit = (item) => {
-  //   setFormData({
-  //     idCartInvest: item.idMeta ||"",
-  //     valor: item.valor || "",
-  //     contas_idConta: parseInt(formData.contas_idConta) || contaSelec.idConta,
-  //   });
-  //   setEditingId(item.idCartInvest);
-  // };
 
   const handleRetirada = async (e) => {
     e.preventDefault();
@@ -114,15 +83,6 @@ const CartInvest = () => {
       url: error.config?.url})
     }
   }
-
-  // const handleDelete = async (idCartInvest) => {
-  //   try {
-  //     await api.delete(`/invest/${contaSelec.idConta}/${idCartInvest}`);
-  //     fetchData();
-  //   } catch (err) {
-  //     console.log("Algo deu errado...", err);
-  //   }
-  // };
 
   const resetForm = () => {
     setFormData({
@@ -181,7 +141,7 @@ const CartInvest = () => {
           </div>
         ) : (
           <div className={styles.lista__card}>
-            <img src="https://i.pinimg.com/736x/ec/44/a7/ec44a7c9e2ddbc9eebee4e4ac0608020.jpg"
+            <img src={piggybank}
               className={styles.img__invest} />
             <h3>R$ {parseFloat(investimento.valor).toFixed(2)}</h3>
           </div>

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styles from "./Filtros.module.css";
+import useToast from "../../hooks/useToast";
 
 const Filtro = ({ onFiltrar }) => {
     const [ mes, setMes ] = useState(new Date().getMonth() + 1);
     const [ ano, setAno ] = useState(new Date().getFullYear());
+    const { showLoading } = useToast();
 
     const handleFiltrar = () => {
+        showLoading('Filtrando...');
         onFiltrar({ mes: parseInt(mes), ano: parseInt(ano) });
     };
 

@@ -17,6 +17,7 @@
     padding: 30px;
     border-radius: 30px;
     margin-left: 6rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .input__div {
@@ -56,6 +57,7 @@
     background-color: #a7edaf;
     padding: 60px;
     border-radius: 30px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .lista__card {
