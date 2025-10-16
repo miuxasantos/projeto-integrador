@@ -60,11 +60,12 @@
     gap: 6px;
     max-width: 100%;
     color: white;
+    font-size: 12px;
 }
 
 .logout_btn {
-    width: 80px;
-    border-radius: 8px;
+    height: 30px;
+    border-radius: 10px;
     border-style: none;
 }
 
@@ -73,7 +74,9 @@
     background-color: rgb(219, 217, 217);
 }
 
-
+.logout__icon {
+    color: #d41002;
+}
 
 @media (max-width: 768px) {
     .container {

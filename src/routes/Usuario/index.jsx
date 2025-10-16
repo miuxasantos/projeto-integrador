@@ -149,9 +149,9 @@ const Usuario = () => {
       </div>
 
       {/* Formulário */}
-      <form onSubmit={handleSubmit}>
+      <form className={styles.form_container} onSubmit={handleSubmit}>
       {editingId ? (
-        <div className={styles.form_container}>
+        <div>
         <input type="hidden" name="idUsuario" value={formData.idUsuario} />
 
         <div className={styles.input__div}>
@@ -167,7 +167,7 @@ const Usuario = () => {
         </div>
 
         <div className={styles.input__div}>
-          <label>Email:</label>
+          <label className={styles.input__label}>Email:</label>
           <input
             type="text"
             name="email"
@@ -179,7 +179,7 @@ const Usuario = () => {
         </div>
 
         <div className={styles.input__div}>
-          <label>Senha:</label>
+          <label className={styles.input__label}>Senha:</label>
           <input
             type="password"
             name="senha"
@@ -191,7 +191,7 @@ const Usuario = () => {
         </div>
 
         <div className={styles.input__div}>
-          <label>Tipo da conta:</label>
+          <label className={styles.input__label}>Tipo da conta:</label>
           <select 
             name="tipo"
             value={formData.tipo}

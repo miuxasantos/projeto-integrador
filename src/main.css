@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: #e2e4c7;
+    --main-bg-color: #f9fae6;
 }
 
 *, *::before, *::after {
@@ -98,3 +98,4 @@ table {
     display: flex;
     flex-direction: column;
 }
+

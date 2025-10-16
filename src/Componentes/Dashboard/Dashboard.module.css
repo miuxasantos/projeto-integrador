@@ -168,7 +168,7 @@
 .charts {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 12px;
 }
 
@@ -212,29 +212,196 @@
     gap: 16px;
     padding: 10px;
     border-radius: 20px;
-    background-color: #28a745;
+    background-color: #2ac24d;
     width: 250px;
     height: 150px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .chartsGrid {
-        grid-template-columns: 1fr;
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
     }
     
-    .resumoGrid {
+    .chartsGrid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .charts {
+        gap: 15px;
+    }
+    
+    .piechart {
+        max-width: 250px;
+        height: 220px;
+    }
+    
+    .barchart {
+        max-width: 400px;
+        height: 280px;
+    }
+    
+    .summary__container {
+        gap: 15px;
+    }
+    
+    .summary, .last {
+        max-width: 250px;
+    }
+}
+
+/* Tablets pequenos (577px - 768px) */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
     }
     
     .header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 15px;
     }
     
     .controls {
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .btnAtualizar, .pdfLink {
+        min-width: 110px;
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .resumoGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .charts {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .piechart, .barchart {
+        max-width: 100%;
+        height: 250px;
+    }
+    
+    .summary__container {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+    }
+    
+    .summary, .last {
+        max-width: 100%;
+        min-height: 130px;
+    }
+}
+
+/* Celulares (481px - 576px) */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header {
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    
+    .controls {
+        flex-direction: column;
         width: 100%;
-        justify-content: flex-start;
+        gap: 8px;
+    }
+    
+    .btnAtualizar, .pdfLink {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+    }
+    
+    .chartsGrid {
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .chartContainer, .resumoContainer, .movimentacoesContainer {
+        padding: 15px;
+    }
+    
+    .piechart, .barchart {
+        height: 200px;
+    }
+    
+    .movItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 12px;
+    }
+    
+    .movNome, .movValor {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .summary, .last {
+        min-height: 120px;
+        padding: 15px;
+    }
+    
+    .resumoItem {
+        padding: 12px;
+    }
+    
+    .resumoItem strong {
+        font-size: 16px;
+    }
+}
+
+/* Celulares muito pequenos (até 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .header h2 {
+        font-size: 20px;
+    }
+    
+    .chartContainer, .resumoContainer, .movimentacoesContainer {
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .piechart, .barchart {
+        height: 180px;
+    }
+    
+    .summary, .last {
+        min-height: 110px;
+        padding: 12px;
+        border-radius: 15px;
+    }
+    
+    .resumoItem {
+        padding: 10px;
+    }
+    
+    .resumoItem span {
+        font-size: 13px;
+    }
+    
+    .resumoItem strong {
+        font-size: 15px;
+    }
+    
+    .btnAtualizar, .pdfLink {
+        font-size: 12px;
+        padding: 8px 12px;
     }
 }

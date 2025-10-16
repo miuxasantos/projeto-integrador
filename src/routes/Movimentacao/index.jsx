@@ -3,6 +3,8 @@ import styles from "./Movimentacao.module.css";
 import api from "./../../services/api.js";
 import { useConta } from "../../context/ContaContext/useConta";
 import useToast from "../../hooks/useToast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = React.lazy(() => import('../../Componentes/Dashboard'));
 
@@ -26,7 +28,7 @@ const Movimentacao = () => {
       if (!contaSelec?.idConta) return;
       setLoading(true);
       
-      showLoading('Buscando seus dados...');
+      const loadingT = showLoading('Buscando seus dados...');
       try {
         const movResponse = await api.get(`/mov/${contaSelec.idConta}`);
         setItems(movResponse.data);
@@ -34,6 +36,7 @@ const Movimentacao = () => {
         console.log("Algo deu errado...", err);
       } finally {
         setLoading(false);
+        dismissToast(loadingT);
       }
     }, [contaSelec?.idConta]);
 
@@ -151,7 +154,7 @@ const Movimentacao = () => {
     return (
       <div className={styles.container_mov}>
         {/* Formulário */}
-        <div className={styles.content_mov}>
+        <div className={styles.container__mov__div}>
           <form onSubmit={handleSubmit} className={styles.form__container}>
             <input type="hidden" name="idMov" value={formData.idMov} />
 
@@ -247,7 +250,7 @@ const Movimentacao = () => {
                   <li key={item.idMov || item.nome} className={styles.lista__card}>
                     <div className={styles.lista__info}>
                       <h3>Nome: {item.nome}</h3>
-                      <p>Valor: {item.valor}</p>
+                      <p style={{color: (item.tipoMovimentacao === "credito") ? 'green' : 'red',}}>Valor: {item.valor}</p>
                       <p>Tipo: {item.tipo}</p>
                       <p>Tipo de Movimentação: {item.tipoMovimentacao}</p>
                       <p>Categoria: {item.categoria}</p>
@@ -255,14 +258,14 @@ const Movimentacao = () => {
 
                     <div className={styles.lista__btn}>
                       <button onClick={() => handleEdit(item)} className={styles.btn_mov}>
-                        Editar
+                        <FontAwesomeIcon icon={faFilePen} size="lg" style={{color: "#4a4ecf"}} />
                       </button>
 
                       <button
                         onClick={() => handleDelete(item.idMov)}
                         className={styles.btn_mov}
                       >
-                        Excluir
+                        <FontAwesomeIcon icon={faTrash} size="lg" style={{color: "#d41002"}} />
                       </button>
                     </div>
                   </li>

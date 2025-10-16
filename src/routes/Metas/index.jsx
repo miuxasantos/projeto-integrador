@@ -3,6 +3,9 @@ import styles from "./Metas.module.css";
 import { useConta } from "../../context/ContaContext/useConta";
 import api from "../../services/api.js";
 import useToast from "../../hooks/useToast.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ProgressBar from "../../Componentes/ProgressBar/index.jsx";
 
 const Metas = () => {
   const { contaSelec } = useConta();
@@ -124,6 +127,24 @@ const Metas = () => {
     setEditingId(null);
   };
 
+  const calcularPorcentagem = (quantia, progresso) => {
+    if(quantia <= 0) {
+      return 0;
+    }
+
+    if (progresso <= 0) {
+      return 0;
+    }
+
+    if (progresso > quantia) {
+      progresso = quantia
+    }
+
+    const porcentagem = (progresso / quantia) * 100;
+
+    return Math.min(100, parseFloat(porcentagem.toFixed(2)));
+  }
+
   if(!contaSelec) {
       return <p>Por favor, selecione sua conta.</p>
   }
@@ -208,31 +229,34 @@ const Metas = () => {
           <p>Nenhuma meta cadastrada.</p>
         ) : (
           <ul className={styles.lista__metas__ul}>
-            {items.map((item) => (
+            {items.map((item) => {
+              const porcentagem = calcularPorcentagem(item.quantia, item.progresso);
+              return (
               <li key={item.idMeta || item.nome} className={styles.lista__card}>
                 <div className={styles.lista__info}>
                   <h3>Nome: {item.nome}</h3>
                   <p>Objetivo: {item.objetivo}</p>
                   <p>Quantia: {item.quantia}</p>
                   <p>Progresso: {item.progresso}</p>
+                  <ProgressBar className={styles.progresso__barra} porcentagem={porcentagem} />
                 </div>
 
                 <div className={styles.lista__btn}>
                   <button onClick={() => handleEdit(item)}
                     disabled={loading} 
                     className={styles.btn__metas}>
-                    Editar
+                    <FontAwesomeIcon icon={faFilePen} size="lg" style={{color: "#4a4ecf"}} />
                   </button>
 
                   <button
                     onClick={() => handleDelete(item.idMeta)}
                     disabled={loading}
                     className={styles.btn__metas}>
-                    Excluir
+                    <FontAwesomeIcon icon={faTrash} size="lg" style={{color: "#d41002"}} />
                   </button>
                 </div>
               </li>
-            ))}
+            )})}
           </ul>
         )}
       </div>

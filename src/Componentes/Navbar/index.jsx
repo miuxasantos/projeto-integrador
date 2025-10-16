@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styles from "./Navb.module.css"
 import useAuth from '../../context/AuthContext/useAuth'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 const Navb = () => {
   const { usuario, logout } = useAuth();
@@ -23,7 +25,9 @@ const Navb = () => {
 
       <div className={styles.navb_user}>
         <span>Bem vindo, {usuario?.nome}</span>
-        <button onClick={logout} className={styles.logout_btn}>Sair</button>
+        <button onClick={logout} className={styles.logout_btn}>
+          <FontAwesomeIcon icon={faRightFromBracket} size='lg' className={styles.logout__icon} />
+        </button>
       </div>
     </nav>
   )

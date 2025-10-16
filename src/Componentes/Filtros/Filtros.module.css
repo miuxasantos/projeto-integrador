@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .select_filtro {
@@ -37,4 +39,98 @@
     background-color: #ccf0d0;
     border-color: white;
     border-style: solid;
+}
+
+@media (max-width: 1024px) {
+    .container_filtro {
+        gap: 0.8rem;
+    }
+    
+    .select_filtro,
+    .input_filtro {
+        width: 110px;
+        height: 28px;
+        font-size: 13px;
+    }
+    
+    .btn_filtro {
+        width: 95px;
+        height: 28px;
+        font-size: 13px;
+    }
+}
+
+/* Tablets pequenos e celulares grandes (577px - 768px) */
+@media (max-width: 768px) {
+    .container_filtro {
+        gap: 0.7rem;
+        justify-content: center;
+    }
+    
+    .select_filtro,
+    .input_filtro {
+        width: 100px;
+        height: 26px;
+        font-size: 12px;
+    }
+    
+    .btn_filtro {
+        width: 90px;
+        height: 26px;
+        font-size: 12px;
+    }
+}
+
+/* Celulares (481px - 576px) */
+@media (max-width: 576px) {
+    .container_filtro {
+        flex-direction: column; /* Muda para coluna em mobile */
+        gap: 0.8rem;
+        align-items: stretch; /* Estica os elementos */
+        max-width: 200px; /* Limita a largura máxima */
+        margin: 0 auto; /* Centraliza */
+    }
+    
+    .select_filtro,
+    .input_filtro,
+    .btn_filtro {
+        width: 100%; /* Ocupa toda a largura disponível */
+        height: 32px; /* Altura um pouco maior para touch */
+        font-size: 14px;
+    }
+}
+
+/* Celulares muito pequenos (até 480px) */
+@media (max-width: 480px) {
+    .container_filtro {
+        gap: 0.6rem;
+        max-width: 180px;
+    }
+    
+    .select_filtro,
+    .input_filtro,
+    .btn_filtro {
+        height: 30px;
+        font-size: 13px;
+    }
+}
+
+/* Versão alternativa para telas maiores */
+@media (min-width: 1200px) {
+    .container_filtro {
+        gap: 1.2rem;
+    }
+    
+    .select_filtro,
+    .input_filtro {
+        width: 140px;
+        height: 32px;
+        font-size: 15px;
+    }
+    
+    .btn_filtro {
+        width: 110px;
+        height: 32px;
+        font-size: 15px;
+    }
 }

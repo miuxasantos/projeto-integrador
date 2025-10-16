@@ -29,8 +29,9 @@
 }
 
 .footer {
-    margin-top: auto; /* Remove qualquer espaço extra abaixo */
+    margin-top: auto;
     position: relative;
     bottom: 0;
     width: 100%;
 }
+

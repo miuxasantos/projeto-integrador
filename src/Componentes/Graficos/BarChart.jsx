@@ -29,7 +29,6 @@ const BarChart = ({ data, title }) => {
 
     return(
         <div>
-            <h3>{title || "Resumo financeiro"}</h3>
             <Bar
                 data={chartData}
                 options={{

@@ -29,7 +29,6 @@ const PieChart = ({ data, title }) => {
 
     return (
         <div>
-            <h3>{title || 'Distruibuição por Categoria'}</h3>
             <Pie
                 data={chartData}
                 options={{

@@ -3,6 +3,8 @@ import styles from "./CartInvest.module.css";
 import api from "../../services/api.js";
 import { useConta } from "../../context/ContaContext/useConta.jsx";
 import piggybank from "../../assets/img/piggybank.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons";
 
 const CartInvest = () => {
   const { contaSelec } = useConta();
@@ -105,7 +107,6 @@ const CartInvest = () => {
         <input type="hidden" name="idCartInvest" value={formData.idCartInvest} />
 
         <div className={styles.input__div}>
-          <label>Valor:</label>
           <input
             type="number"
             name="valor"
@@ -115,6 +116,7 @@ const CartInvest = () => {
             onChange={handleInputChange}
             required
             className={styles.input}
+            placeholder="Digite o valor para retirar..."
           />
         </div>
 
@@ -125,7 +127,7 @@ const CartInvest = () => {
             className={styles.btn}
             disabled={!formData.valor || parseFloat(formData.valor) <= 0}
           >
-            Retirar
+            <FontAwesomeIcon icon={faPiggyBank} size="xl" style={{color: "#dfb93c",}} />
           </button>
         )}
 
@@ -133,7 +135,7 @@ const CartInvest = () => {
 
       {/* Lista de Itens */}
       <div className={styles.lista__container}>
-        <h2>Porquinho Cents</h2>
+        <h2 className={styles.h2__porquinho}>Porquinho Cents</h2>
 
         {!investimento ? (
           <div>
@@ -143,7 +145,7 @@ const CartInvest = () => {
           <div className={styles.lista__card}>
             <img src={piggybank}
               className={styles.img__invest} />
-            <h3>R$ {parseFloat(investimento.valor).toFixed(2)}</h3>
+            <h3 className={styles.h3__porquinho}>R$ {parseFloat(investimento.valor).toFixed(2)}</h3>
           </div>
         )}
         </div>

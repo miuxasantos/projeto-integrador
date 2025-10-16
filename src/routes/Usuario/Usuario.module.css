@@ -13,7 +13,7 @@
     justify-content: center;
     margin-bottom: 20px;
     box-sizing: border-box;
-    background-color: #6abd68;
+    background-color: #4DAA57;
     padding: 30px;
     border-radius: 30px;
     margin-left: 6rem;
@@ -33,6 +33,11 @@
     width: 250px;
     height: 30px;
     border-style: none;
+    margin-bottom: 10px;
+}
+
+.input__label {
+    margin-top: 4px;
 }
 
 .btn {
@@ -54,7 +59,7 @@
 .lista__container {
     margin-top: 10px;
     margin-left: 50px;
-    background-color: #a7edaf;
+    background-color: #ABE188;
     padding: 60px;
     border-radius: 30px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

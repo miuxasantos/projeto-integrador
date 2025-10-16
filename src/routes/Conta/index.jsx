@@ -4,6 +4,9 @@ import useAuth from "../../context/AuthContext/useAuth";
 import api from "../../services/api";
 import { useConta } from "../../context/ContaContext/useConta";
 import useToast from "../../hooks/useToast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePen, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 
 const Conta = () => {
   const { usuario, token } = useAuth();
@@ -180,14 +183,14 @@ const Conta = () => {
                 <div className={styles.lista__btn}>
                   <button onClick={() => handleEdit(item)}
                     className={styles.btn__conta}>
-                    Editar
+                      <FontAwesomeIcon icon={faFilePen} size="lg" style={{color: "#4a4ecf"}} />
                   </button>
 
                   <button
                     onClick={() => handleDelete(item.idConta)}
                     className={styles.btn__conta}
                   >
-                    Excluir
+                    <FontAwesomeIcon icon={faTrash} size="lg" style={{color: "#d41002"}} />
                   </button>
                 </div>
               </li>
